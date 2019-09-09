@@ -1,0 +1,234 @@
+
+
+.nav {
+    top: 0;
+    position: fixed;
+    z-index: 1063;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    width: 100%;
+    overflow: hidden;
+    background-color: #202040;
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+    
+
+    .logo {
+        float: left;
+        margin: 20px 0 0 20px;
+        padding: 15px 10px;
+        width: 140px;
+        height: 50px;
+        background-color: #202060;
+        background-image: linear-gradient(90deg, #202060, #202040);
+        color: white;
+        font-size: 30px;
+        border-left: 2px solid whitesmoke;
+    }
+
+    .sign-up{ 
+        margin: 20px 0;
+        padding: 15px 10px;
+        width: 140px;
+        height: 60px;
+        border-radius: 5%;
+        text-align: center;
+        font-size: 18px;
+    }
+
+    .log-in{
+        margin: 20px 20px 20px 0px;
+        padding: 15px 10px;
+        width: 140px;
+        height: 60px;
+        border: 1.2px solid white;
+        border-radius: 15px;
+        text-align: center;
+        font-size: 18px;
+
+        &:hover {
+            .login-link {
+                color: #202040;
+            }
+            background-color: whitesmoke;
+            
+        }
+    }
+
+    .dec {
+        display: block;
+        float: right;
+
+        .login-link, .signup-link{
+            text-decoration: none;
+            color: white;
+            letter-spacing: 1.5px;
+        }
+        
+        .signup-link{
+            &:hover{
+                color: #64c4ed;
+            }
+        }
+    }
+}
+
+#session-1{
+    position: relative;
+    width: 100%;
+    height: 600px;
+    background-color: #202040;
+    
+    z-index: 1;
+
+    .container{
+        
+        margin-left: 10vw;
+        margin-right: 10vw;
+        padding: 150px 5px 50px 5px;
+        
+        height: 600px;
+        
+        .text-intro{
+            float:left;
+            padding-left: 50px;
+            width: 50%;
+            //height: 400px;
+            //background-color: darkcyan;
+            
+            
+            .title{
+               
+                color: whitesmoke;
+                text-align: left;
+                font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+                letter-spacing: 1px;
+            }
+
+            .hp-text{
+                
+                color: whitesmoke;
+                text-align: left;
+                font-size: 16px;
+                line-height: 1.75em;
+                letter-spacing: 1px;
+                
+            }
+            .btn-signup{
+                
+                margin-top: 30px;
+                width: 250px;
+                padding: 12px 10px;
+                border-radius: 5px;
+                background-color: #3e64ff;
+                text-align: center;
+                font-weight: 600;
+                .btn-text{
+                   
+                    color: white;
+                    text-decoration: none;
+                }
+
+                &:hover{
+                    box-shadow: 1px 2px 4px #111;
+                }
+
+            }
+        }
+    
+        .image{
+            float:left;
+            padding-right: 50px;
+            width: 50%;
+            //height: 400px;
+            //background-color: darkcyan;
+            .hp-image{
+                padding-top: 20px;
+                width: 400px;
+                min-width: 445px;
+                max-width: 1000px;
+
+            }
+        }
+    }
+}
+
+#session-2{
+    width: 100%;
+    height: 600px;
+    background-color: whitesmoke;
+    position: relative;
+    z-index: 1;
+
+    .s2-c2-title{
+        padding: 50px 0px;
+        text-align: center;
+        .t2-feature{
+            margin: 0;
+            color: #696464;
+        }
+    }
+}   
+#session-3{
+    width: 100%;
+    height: 600px;
+    background-color: #3e64ff;
+    position: relative;
+    z-index: 1;
+
+    .s3-c3-title{
+        padding: 50px 0px;
+        text-align: center;
+        .t3-feature{
+            margin: 0;
+            color: #f6f6f6;
+        }
+    }
+}   
+
+#ft{
+    bottom: 0px;
+    position: relative;
+    width: 100%;
+    height: 200px;
+    background-color: black;
+    z-index: 1000;
+    text-align: center;
+    
+
+    .comp{
+        color: red;
+
+    }
+
+    .copyright{
+        color: whitesmoke;
+    }
+
+    .ft-nav{
+        list-style-type: none;
+        color: whitesmoke;
+        overflow: hidden;
+        padding: 0px 40px;
+        width: 450px; 
+        margin: 0 auto;
+
+        .fa{
+            float: left;
+            text-align: center;
+            padding: 40px 40px 20px 40px;
+            justify-content: center;
+            .ft-a{
+                text-decoration: none;
+                color: white;
+                
+            }
+            &:hover{
+                .ft-a{
+                    color: #366ed8;
+                }
+            }
+        }
+    }
+
+}
