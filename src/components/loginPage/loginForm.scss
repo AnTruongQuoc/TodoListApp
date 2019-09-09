@@ -1,0 +1,65 @@
+
+
+.login-form{
+    margin: auto;
+    width: 60%;
+    //background-color: green;
+    height: 50px;
+    text-align: center;
+    padding: 22vh 0px;
+
+    .login-title{
+        font-size: 26px;
+        letter-spacing: 1px;
+        font-family: montserrat, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    .lp {
+        padding: 10px 0px;
+        
+        .in {
+           margin: 0px 10px;
+           
+           border: none;
+           border-bottom: 1.5px solid #200f21;
+           padding: 10px 20px 10px 0px;
+           &:focus {
+                outline: none;
+           }
+        }
+    }
+
+    .submit {
+        margin: 30px 0px;
+        border: none;
+        background-color: #202040;
+        opacity: 0.8;
+        color: white;
+        padding: 15px 40px;
+        letter-spacing: 2px;
+        border-radius: 25px;
+        font-weight: 500;
+        transition: background-color 2s ease;
+        
+        &:hover {
+            background-color: green;
+            box-shadow: 1px 2px 4px #111;
+        }
+        &:active {
+            outline: none;
+        }
+    }
+
+    .fg-pw{
+        letter-spacing: 1px;
+        .fg-pw-link{
+            text-decoration: none;
+            color: black;
+            transition: letter-spacing .6s ease;
+            &:hover{
+                letter-spacing: 2px;
+                
+            }
+        }
+    }
+}
