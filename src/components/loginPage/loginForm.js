@@ -28,7 +28,7 @@ class LoginForm extends React.Component {
             email:'',
             password: '',
             isFailed: false,
-            signedInFailed: ''
+            signedInFailed: '',
         }
     }
     
@@ -43,12 +43,24 @@ class LoginForm extends React.Component {
             signedInFailed: ''
         })
 
+        firebase.auth().sendPasswordResetEmail(this.state.email).then(function(){
+                self.setState({
+                    reSent: true
+                })
+
+                console.log('Checking your email', this.state.reSent)
+        }).catch(function(error){
+
+        })
+
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then(function(user){
             //User signed in
             self.setState({
                 isFailed: false,
                 signedInFailed: 'Verifying....'
             })
+            console.log('Login Successssssss')
+            //console.log(self.state)
         }).catch(function(error){
             //Error when signed in
 
@@ -64,7 +76,9 @@ class LoginForm extends React.Component {
             else  {}
             console.log(errCode, errMessage)
         })
-        console.log(this.state)
+
+        
+        //console.log(this.state)
     }
 
    
@@ -93,7 +107,7 @@ class LoginForm extends React.Component {
                         <div className='noti-su-text'>
                             {this.state.isFailed ? <p style={{margin:0}} className='noti-si-failed'>{this.state.signedInFailed}</p> : null}
                         </div>
-                        <input type='submit' className='submit' value='LOGIN'></input>
+                        <input type='submit' id='in-submit' className='submit' value='LOGIN'></input>
 
                         <p className='fg-pw'>
                             <a className='fg-pw-link' href='/forgotten-password'>Forgot your password ?</a>
