@@ -2,93 +2,86 @@ import React from 'react'
 import './signupForm.scss'
 import 'firebase/auth'
 import firebase from 'firebase/app'
-
-const config= {
-    apiKey: "AIzaSyApZD1LrfqPZcbBDKyccpjCzxbeaanNKdo",
-    authDomain: "todolist-demotest.firebaseapp.com",
-    databaseURL: "https://todolist-demotest.firebaseio.com",
-    projectId: "todolist-demotest",
-    storageBucket: "todolist-demotest.appspot.com",
-    messagingSenderId: "678656591916",
-    appId: "1:678656591916:web:1b8931fcda502496542989"
-  };
+import { configDev } from '../../firebase/auth'
+import { config } from '../../firebase/auth'
 
 class SignUpForm extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props)
 
         if (!firebase.apps.length) {
-            firebase.initializeApp(config);
-         }
-        
-        
-    }   
+            firebase.initializeApp(configDev);
+        }
 
-    onSubmit = (e) => {
-       console.log(e)
+        this.state = {
+            suEmail: '',
+            suUser: '',
+            suPassword: '',
+            suRepassword: '',
+            wrongRePass: '',
+            isWrongRePass: false,
+            successMess:''
+        }
     }
 
-    onChange = (e) => {
-        console.log(e)
-    }
+    handleSubmit = (e) => {
+        e.preventDefault()
+        var self = this
 
-    onClick = event => {
-        const email = document.getElementById('signup-email').value
-        , password = document.getElementById('signup-password').value
-        , repassword = document.getElementById('signup-repassword').value
-
-        console.log(email, password)
-
-            this.setState({
-                email: email,
-                password: password,
-                repassword: repassword
+        if (this.state.suPassword === this.state.suRepassword) {
+            firebase.auth().createUserWithEmailAndPassword(this.state.suEmail, this.state.suPassword).then(function () {
+                self.setState({
+                    isWrongRePass: false,
+                    successMess: 'Sign-up successfully! You can login now'
+                })
+            }).catch(function (error) {
+                //do something here
             })
-            
-            
-            const auth = firebase.auth()
-            auth.createUserWithEmailAndPassword(email, password).then(cred => {
-                console.log(cred);
+        }
+        else {
+            self.setState({
+                isWrongRePass: true,
+                wrongRePass:'Confirm password is wrong!'
             })
-        
+        }
+
     }
 
-    
+    handleChange = (e) => {
+        this.setState({
+            [e.target.id]: e.target.value
+        })
+    }
     render() {
-        return(
+        return (
             <React.Fragment>
                 <div className='sign-up-area'>
                     <h2 className='su-title'>SIGN UP</h2>
                     <p className='su-noti'>Please input your information to sign up.</p>
                     <div className='su-div'>
-                        <form onSubmit={this.onSubmit()} className='su-form' id='__signup-form' autoComplete='on'>
-                            <div  className='username'> 
-                                <input type='text' id='signup-username' className='suf' name='username' placeholder='Username' autoComplete='on' required/>
+                        <form onSubmit={this.handleSubmit} className='su-form' id='__signup-form' autoComplete='on'>
+                            <div className='username'>
+                                <input type='text' id='suUser' className='suf' name='username' placeholder='Username' autoComplete='on' onChange={this.handleChange} required />
                             </div>
                             <div className='email'>
-                                <input type='email' id='signup-email' className='suf' name='email' placeholder='Your E-mail' autoComplete='off' required/>
+                                <input type='email' id='suEmail' className='suf' name='email' placeholder='Your E-mail' autoComplete='off' onChange={this.handleChange} required />
                             </div>
-                            <div className='fullname'>
-                                <input type='text' className='suf' name='fullname' placeholder='Your Fullname' autoComplete='on' required/>
-                            </div>
-                            <div className='dob'>
-                                <input type='text' className='suf' name='dob' placeholder='Date of birth' autoComplete='on' required/>
-                            </div>
-                            
 
                             <div className='password'>
-                                <input type='password' id='signup-password' className='suf' name='password' placeholder='Password' autoComplete='off' required/>
+                                <input type='password' id='suPassword' className='suf' name='password' placeholder='Password' autoComplete='off' onChange={this.handleChange} required />
                             </div>
                             <div className='confirm-pw'>
-                                <input type='password' id='signup-repassword' className='suf' name='confirm password' placeholder='Confirm Password' autoComplete='off' required/>
+                                <input type='password' id='suRepassword' className='suf' name='confirm password' placeholder='Confirm Password' autoComplete='off' onChange={this.handleChange} required />
                             </div>
 
-                            <input type='submit' className='submit-suf' value='SIGN UP' onClick={(e) => this.onClick()}/>
-                           
+                            <input type='submit' className='submit-suf' value='SIGN UP' />
+                            <div>
+                                {this.state.isWrongRePass ? <p>{this.state.wrongRePass}</p> : <p>{this.state.successMess}</p>} 
+                            </div>
                         </form>
 
                     </div>
-                </div>    
+                </div>
             </React.Fragment>
         )
     }

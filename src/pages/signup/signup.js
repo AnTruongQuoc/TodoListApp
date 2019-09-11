@@ -4,19 +4,6 @@ import SignUpForm from '../../components/signupPage/signupForm'
 
 
 class SignupPage extends React.Component {
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            email: '',
-            username: '',
-            password: '',
-            repassword: ''
-        }
-    }
-
-    
-    
     render() {
         return (
             <React.Fragment>

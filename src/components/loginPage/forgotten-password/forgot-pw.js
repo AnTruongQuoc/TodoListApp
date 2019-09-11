@@ -4,23 +4,16 @@ import './forgot-pw.scss'
 import 'firebase/auth'
 import 'firebase/firestore'
 import firebase, { firestore } from 'firebase/app'
+import {configDev} from '../../../firebase/auth'
+import {config} from '../../../firebase/auth'
 
-const config = {
-    apiKey: "AIzaSyApZD1LrfqPZcbBDKyccpjCzxbeaanNKdo",
-    authDomain: "todolist-demotest.firebaseapp.com",
-    databaseURL: "https://todolist-demotest.firebaseio.com",
-    projectId: "todolist-demotest",
-    storageBucket: "todolist-demotest.appspot.com",
-    messagingSenderId: "678656591916",
-    appId: "1:678656591916:web:1b8931fcda502496542989"
-};
 
 class ForgotPassword extends React.Component {
     constructor(props) {
         super(props)
 
         if (!firebase.apps.length) {
-            firebase.initializeApp(config)
+            firebase.initializeApp(configDev)
         }
 
         this.state = {
