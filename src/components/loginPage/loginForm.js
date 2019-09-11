@@ -28,7 +28,7 @@ class LoginForm extends React.Component {
             email:'',
             password: '',
             isFailed: false,
-            signedInFailed: 'Wrong password'
+            signedInFailed: ''
         }
     }
     
@@ -36,19 +36,29 @@ class LoginForm extends React.Component {
     
     handleSubmit = (e) => {
         e.preventDefault()
-        
+        var self = this
+
+        this.setState({
+            isFailed: false,
+            signedInFailed: ''
+        })
+
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then(function(user){
             //User signed in
-            
+            self.setState({
+                isFailed: false,
+                signedInFailed: 'Verifying....'
+            })
         }).catch(function(error){
             //Error when signed in
 
             var errCode = error.code;
             var errMessage = error.message;
             
-            if (errCode == 'auth/wrong-password'){
-                this.setState({
-                    isFailed: true
+            if ((errCode === 'auth/wrong-password') || (errCode === 'auth/user-not-found')){
+                self.setState({
+                    isFailed: true,
+                    signedInFailed: 'Your email or password is incorrect.'
                 })
             }
             else  {}
@@ -81,7 +91,7 @@ class LoginForm extends React.Component {
                             <input type='password' id='password' className='password in' name='password' placeholder='Password' onChange={this.handleChange} required></input> 
                         </div>
                         <div className='noti-su-text'>
-                            {this.state.isFailed ? <p>{this.state.signedInFailed}</p> : null}
+                            {this.state.isFailed ? <p style={{margin:0}} className='noti-si-failed'>{this.state.signedInFailed}</p> : null}
                         </div>
                         <input type='submit' className='submit' value='LOGIN'></input>
 
