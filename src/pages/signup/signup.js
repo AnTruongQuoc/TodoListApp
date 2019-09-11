@@ -2,7 +2,21 @@ import React from 'react'
 import './signup.scss'
 import SignUpForm from '../../components/signupPage/signupForm'
 
+
 class SignupPage extends React.Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            email: '',
+            username: '',
+            password: '',
+            repassword: ''
+        }
+    }
+
+    
+    
     render() {
         return (
             <React.Fragment>
@@ -14,7 +28,7 @@ class SignupPage extends React.Component {
                         <SignUpForm></SignUpForm>
 
                     </div>
-                    
+
                     <div className='sup-img-right'>
 
                     </div>

@@ -31,7 +31,7 @@ class homepage extends React.Component {
                         </div>
 
                         <div className='image'>
-                            <img  className='hp-image' src={hpimage}></img>
+                            <img alt='cover' className='hp-image' src={hpimage}></img>
                         </div>
                     </div>
                 </div>
