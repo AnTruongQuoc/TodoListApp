@@ -1,10 +1,11 @@
 .sign-up-area{
+    padding-top: 2vh;
     .su-title{
         text-align: center;
         font-family: montserrat, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         font-size: 34px;
         padding: 20px 0 5px 0;
-        margin: 30px  0 10px 0;
+        margin: 0 0 10px 0;
     }
     .su-noti{
         text-align: center;
@@ -16,16 +17,72 @@
         margin: auto;
         width: 70%;
         text-align: center;
-        padding: 20px 0;
+        padding: 0;
         .su-form{
+            width: 100%;
+            .pw-strength-area{
+                width: 70%;
+                margin: auto;
+                .pw-lv{
+                    width: 100%;
+                    padding-top: 10px;
+                    padding-left: 5px;
+                    
+                    height: 50.5px;
+                    .pw-lv-text{
+                        float: left;
+                        margin: 0;
+                        padding-right: 20px;
+                        font-family: montserrat;
+                        font-size: 14px;
+                    }
+                    .blank{
+                        float: left;
+                        width: 20%;
+                        height: 5px;
+                        margin: 7px 0 0 0; 
+                        background-color: whitesmoke;
+                    }
+                    .red{
+                        float: left;
+                        width: 20%;
+                        height: 5px;
+                        margin: 7px 0 0 0; 
+                        background-color: red;
+                        
+                    }
+                    .yell{
+                        float: left;
+                        width: 20%;
+                        height: 5px;
+                        margin: 7px 0 0 0; 
+                        background-color: yellow;
+                        
+                    }
+                    .green{
+                        float: left;
+                        width: 20%;
+                        height: 5px;
+                        margin: 7px 0 0 0; 
+                        background-color: green;
+                        
+                    }
+                }
+            }
             .suf{
+                margin-top: 10px;
                 width: 70%;
                 outline: none;
                 border: none;
+                
                 border-bottom: 1.5px solid #333;
                 padding: 10px 5px 10px 5px;
                 font-family: montserrat;
-                font-size: 14px;
+                font-size: 16px;
+                letter-spacing: 1px;
+            }
+            #suRepassword{
+                margin: auto;
             }
             .submit-suf{
                 background-color: #002651;
@@ -42,16 +99,55 @@
                 &:active{
                     outline: none;
                 }
-
+                &:focus{
+                    outline: none;
+                }
                 &:hover{
                    
                     background-color: #775ada;
                     
                 }
             }
-
+            .su-mess-noti{
+                .su-noti-wrong{
+                    margin: 0;
+                    color: red;
+                    font-style: italic;
+                    font-family: montserrat;
+                    font-size: 16px;
+                    animation-name: shake, grow-red;
+                    animation-duration: 0.7s, 0.35s;
+                    animation-iteration-count: 1,2;
+                }
+                .su-noti-success{
+                    margin: 0;
+                    color: green;
+                    font-style: italic;
+                    font-family: montserrat;
+                    font-size: 16px;
+                }
+            }
             
         }
     }
 
 }
+
+@keyframes shake {
+    0%, 20%, 40%, 60%, 80% {
+        transform: translateX(8px);
+    }
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        transform: translateX(-8px);
+    }
+}
+
+@keyframes glow-red {
+    50% {
+      border-color: indianred;
+    }
+  }

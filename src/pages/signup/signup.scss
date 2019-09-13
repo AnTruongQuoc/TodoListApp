@@ -25,7 +25,31 @@
                  color: #202060;
                  font-size: 30px;
                  border-left: 3px solid #202040;
-             }
+            }
+
+            .sup-btn-login {
+                float: right;
+                text-decoration: none;
+                margin: 30px 20px 0 0;
+                border: 1.5px solid #01d28e;
+                padding: 10px 30px;
+                color: #01d28e;
+                border-radius: 20px;
+                font-family: montserrat;
+                font-weight: 500;
+                letter-spacing: 1px;
+                transition: all 0.4s ease-in-out;
+                &:hover{
+                    background-color: #01d28e;
+                    color: whitesmoke;
+                }
+                &:active:focus{
+                    background-color: lightgreen;
+                }
+                &:focus{
+                    outline: none;
+                }
+            }
         }
 
     }

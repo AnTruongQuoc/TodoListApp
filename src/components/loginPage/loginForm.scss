@@ -19,7 +19,8 @@
         .noti-si-failed{
             margin: 0;
             color: red;
-            font-size: 13px;
+            font-size: 14px;
+            font-family: montserrat;
             letter-spacing: 1px;
             font-style: italic;
             animation-name: shake, glow-red;
@@ -32,10 +33,13 @@
         
         .in {
            margin: 0px 10px;
-           
+           font-family: montserrat;
+           font-size: 16px;
            border: none;
            border-bottom: 1.5px solid #200f21;
            padding: 10px 20px 10px 0px;
+           letter-spacing: 1px;
+
            &:focus {
                 outline: none;
            }
@@ -59,6 +63,9 @@
             box-shadow: 1px 2px 4px #111;
         }
         &:active {
+            outline: none;
+        }
+        &:focus{
             outline: none;
         }
     }

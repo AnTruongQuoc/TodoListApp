@@ -42,6 +42,9 @@
             .email-fail{
                 font-family: montserrat;
                 color: red;
+                animation-name: shake;
+                animation-duration: 0.7s;
+                animation-iteration-count: 1;
             }
         }
 
@@ -70,5 +73,18 @@
             }
             
         }
+    }
+}
+
+@keyframes shake {
+    0%, 20%, 40%, 60%, 80% {
+        transform: translateX(8px);
+    }
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        transform: translateX(-8px);
     }
 }

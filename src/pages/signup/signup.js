@@ -11,7 +11,11 @@ class SignupPage extends React.Component {
                     <div className='sup-con-left'>
                         <div className='logo-container'>
                             <div className='logo'>TodoListApp</div>
+
+                            <a className='sup-btn-login' href='/login'>LOGIN</a>
                         </div>
+
+                        
                         <SignUpForm></SignUpForm>
 
                     </div>

@@ -6,8 +6,7 @@ import 'firebase/firestore'
 import firebase, { firestore } from 'firebase/app'
 import {configDev} from '../../../firebase/auth'
 import {config} from '../../../firebase/auth'
-
-
+import Cookies from 'universal-cookie'
 class ForgotPassword extends React.Component {
     constructor(props) {
         super(props)
@@ -16,17 +15,27 @@ class ForgotPassword extends React.Component {
             firebase.initializeApp(configDev)
         }
 
+        
+        const cookies = new Cookies()
+        cookies.set('isLogin', true, {path:'/'})
+        cookies.set('isOff', false, {path: '/'})
+        
+
         this.state = {
             resetEmail: '',
             message: '',
             cssMess:'',
             isSuccess: false,
-            isShowMess: false
+            isShowMess: false,
+            isLogin: cookies.get('isLogin')
         }
     }
 
     handleSubmit = (e) => {
         e.preventDefault()
+
+        console.log(this.state.isLogin)
+        
         var self = this
 
         this.setState({
