@@ -1,12 +1,16 @@
-import React, { Component } from 'react'
+import React from 'react'
 import './loginForm.scss'
 import 'firebase/auth'
 import 'firebase/firestore'
-import firebase, { firestore } from 'firebase/app'
+import firebase from 'firebase/app'
 import { configDev } from '../../firebase/auth'
-import { config } from '../../firebase/auth'
+//import { config } from '../../firebase/auth'
 import Cookies from 'universal-cookie'
+import { Redirect } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import axios from 'axios'
+
+
 
 class LoginForm extends React.Component {
 
@@ -17,40 +21,46 @@ class LoginForm extends React.Component {
             firebase.initializeApp(configDev);
         }
 
-
+        const cookies = new Cookies()
         this.state = {
             email: '',
             password: '',
+            firstName: '',
+            userIDs: '',
+            lastName: '',
+            avatarURL: '',
+            birthDay: '',
+            userPhone: '',
             isFailed: false,
-            signedInFailed: ''
+            signedInFailed: '',
+            isLogined: cookies.get('isLogin')
         }
     }
 
-    componentDidMount() {
-        let self = this
-        
-        axios.get('192.168.2.48:4000/api/user/list')
-            .then(function (response) {
-                // handle success
-                console.log(response);
-                let els = response.data.members.map((key, index) => {
-                    return (
-                        <li key={index}>{key.name} - {key.class}</li>
-                    )
-                })
-                self.setState({
-                    response: els
-                })
-            })
-            .catch(function (error) {
-                // handle error
-                console.log(error);
-            })
-            .finally(function () {
-                // always executed
-            });
-    }
+    // componentDidMount() {
+    //     let self = this
 
+    //     axios.get('192.168.2.48:4000/api/user/list')
+    //         .then(function (response) {
+    //             // handle success
+    //             console.log(response);
+    //             let els = response.data.members.map((key, index) => {
+    //                 return (
+    //                     <li key={index}>{key.name} - {key.class}</li>
+    //                 )
+    //             })
+    //             self.setState({
+    //                 response: els
+    //             })
+    //         })
+    //         .catch(function (error) {
+    //             // handle error
+    //             console.log(error);
+    //         })
+    //         .finally(function () {
+    //             // always executed
+    //         });
+    // }
 
     handleSubmit = (e) => {
         e.preventDefault()
@@ -60,11 +70,12 @@ class LoginForm extends React.Component {
             isFailed: false,
             signedInFailed: ''
         })
-        const cookies = new Cookies()
-        console.log(cookies.get('isLogin'))
-        console.log(cookies.get('isOff'))
 
-        
+        // const cookies = new Cookies()
+        // console.log(cookies.get('isLogin'))
+        // console.log(cookies.get('isOff'))
+
+
 
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then(function (user) {
             //User signed in
@@ -73,20 +84,60 @@ class LoginForm extends React.Component {
                 signedInFailed: 'Verifying....'
             })
 
+            //Set Cookies for Login
+            const cookies = new Cookies()
+            cookies.set('isLogin', true, { path: '/' })
+
+
+
             firebase.auth().currentUser.getIdToken(true).then(function (idToken) {
                 //send token to Backend via HTTP
                 const tokenID = idToken
+
                 const headers = {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'tokenID': tokenID,
-                  };
-                axios.get('http://192.168.2.48:4000/api/user', {headers})
-                
-               
+                };
+                axios.get('http://192.168.2.48:4000/api/user', { headers }).then(res => {
+                    
+                    console.log(res.data.userID)
+                    
+                    // self.setState({
+
+                    //     firstName: 'helloTest',
+                    //     userIDs: res.data.userID,
+                    //     lastName: res.data.lastName,
+                    //     avatarURL: res.data.avatarURL,
+                    //     birthDay: res.data.birthDay,
+                    //     userPhone: res.data.userPhone
+                    // })
+                    // console.log(self.state)
+                })
+
+
+
                 console.log(idToken)
             }).catch(function (error) {
                 //error here
             })
+
+            self.props.history.push({
+                pathname: '/dashboard',
+                state: {
+                    email: self.state.email,
+                    password: self.state.password,
+                    firstName: self.state.firstName,
+                    userID: self.state.userID,
+                    lastName: self.state.lastName,
+                    avatarURL: self.state.avatarURL,
+                    birthDay: self.state.birthDay,
+                    userPhone: self.state.userPhone
+                }
+            })
+
+            // const {history} = self.props;
+            // history.push('/dashboard')
+
 
             console.log('Login Successssssss')
             //console.log(self.state)
@@ -115,14 +166,24 @@ class LoginForm extends React.Component {
         this.setState({
             [e.target.id]: e.target.value
         })
-
-
     }
+
+    checkLoginStatus() {
+        const cookies = new Cookies()
+        const status = cookies.get('isLogin')
+        if (status === 'true')
+            return true
+        else {
+            return false
+        }
+    }
+
 
     render() {
         return (
             <React.Fragment>
 
+                {this.checkLoginStatus() ? <Redirect to='/dashboard' /> : console.log(this.state.isLogined)}
                 <div className='login-form'>
                     <h2 className='login-title'>LOGIN</h2>
                     <form onSubmit={this.handleSubmit} className='login-place' autoComplete='on'>
@@ -145,10 +206,12 @@ class LoginForm extends React.Component {
                         </p>
                     </form>
                 </div>
-                
+
             </React.Fragment>
         )
     }
 }
 
-export default LoginForm
+
+
+export default withRouter(LoginForm)

@@ -57,9 +57,9 @@ class homepage extends React.Component {
                 
                 <div id='ft'>
                     <ul className='ft-nav'>
-                        <li className='ft-about fts'><a className='ft-a' href='#'>About</a></li>
-                        <li className='ft-help fts'><a className='ft-a' href='#'>Help</a></li>
-                        <li className='ft-privacy fts'><a className='ft-a' href='#'>Privacy</a></li>
+                        <li className='ft-about fts'><a className='ft-a' href='/about'>About</a></li>
+                        <li className='ft-help fts'><a className='ft-a' href='/help'>Help</a></li>
+                        <li className='ft-privacy fts'><a className='ft-a' href='/privacy'>Privacy</a></li>
                     </ul>
                     <h2 className='comp'>USER EXPERIENCE RESEARCHERS</h2>
                     <p className='copyright'> © Copyright 2019. All rights reserved.</p>

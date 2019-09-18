@@ -3,9 +3,9 @@ import './forgot-pw.scss'
 //import LoginForm from '../loginForm'
 import 'firebase/auth'
 import 'firebase/firestore'
-import firebase, { firestore } from 'firebase/app'
+import firebase from 'firebase/app'
 import {configDev} from '../../../firebase/auth'
-import {config} from '../../../firebase/auth'
+//import {config} from '../../../firebase/auth'
 import Cookies from 'universal-cookie'
 class ForgotPassword extends React.Component {
     constructor(props) {
@@ -17,8 +17,8 @@ class ForgotPassword extends React.Component {
 
         
         const cookies = new Cookies()
-        cookies.set('isLogin', true, {path:'/'})
-        cookies.set('isOff', false, {path: '/'})
+        // cookies.set('isLogin', true, {path:'/'})
+        // cookies.set('isOff', false, {path: '/'})
         
 
         this.state = {

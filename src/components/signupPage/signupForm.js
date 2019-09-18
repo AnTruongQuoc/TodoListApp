@@ -3,7 +3,7 @@ import './signupForm.scss'
 import 'firebase/auth'
 import firebase from 'firebase/app'
 import { configDev } from '../../firebase/auth'
-import { config } from '../../firebase/auth'
+//import { config } from '../../firebase/auth'
 import axios from 'axios'
 class SignUpForm extends React.Component {
     constructor(props) {
@@ -17,14 +17,20 @@ class SignUpForm extends React.Component {
             suEmail: '',
             suUser: '',
             suPassword: '',
+            suFirstName: 'An',
+            suUserID: '',
+            suLastName: 'Truong',
+            suAvatarURL: 'nolink.com',
+            suBirthDay: '03/02/2019',
+            suUserPhone: '0968344544',
             suRepassword: '',
             wrongRePass: '',
             isWrongRePass: false,
             successMess: '',
-            level:'Strength',
-            colorlv1:'blank', //red, yell, green
-            colorlv2:'blank', 
-            colorlv3:'blank'
+            level: 'Strength',
+            colorlv1: 'blank', //red, yell, green
+            colorlv2: 'blank',
+            colorlv3: 'blank'
         }
     }
 
@@ -39,20 +45,31 @@ class SignUpForm extends React.Component {
 
         if (this.state.suPassword === this.state.suRepassword) {
             firebase.auth().createUserWithEmailAndPassword(this.state.suEmail, this.state.suPassword).then(function () {
-                firebase.auth().currentUser.getIdToken(true).then(function(idToken){
-                    
+                firebase.auth().currentUser.getIdToken(true).then(function (idToken) {
+
                     const headers = {
-                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Content-Type': 'application/json',
                         'tokenIDS': idToken,
                     };
-                     axios.post('http://192.168.2.48:4000/api/user',null, {headers})
-                    console.log(headers)
-                    console.log(idToken)
-                }).catch(function(error){
+
+                    axios.post('http://192.168.2.48:4000/api/user',
+                        {
+                            'email': self.state.suEmail,
+                            'firstName': self.state.suFirstName,
+                            'lastName': self.state.suLastName,
+                            'avatarURL': self.state.suAvatarURL,
+                            'birthDay': self.state.suBirthDay,
+                            'userPhone': self.state.suUserPhone
+                        }
+                        , { headers })
+
+                    //console.log(headers)
+                    //console.log(idToken)
+                }).catch(function (error) {
                     //handle error
                 })
-                
-                
+
+
 
                 self.setState({
                     isWrongRePass: false,
@@ -81,49 +98,47 @@ class SignUpForm extends React.Component {
     }
 
     handleChange = (e) => {
-        
-        
         this.setState({
             [e.target.id]: e.target.value
         })
 
-        if (this.state.suPassword.length === 0){
+        if (this.state.suPassword.length === 0) {
             this.setState({
-                level:'Strength',
-                colorlv1:'blank',
-                colorlv2:'blank',
-                colorlv3:'blank'
+                level: 'Strength',
+                colorlv1: 'blank',
+                colorlv2: 'blank',
+                colorlv3: 'blank'
             })
             console.log(this.state.level)
         }
-        else if (this.state.suPassword.length > 0 && this.state.suPassword.length < 6){
+        else if (this.state.suPassword.length > 0 && this.state.suPassword.length < 6) {
             this.setState({
-                level:'Weak',
-                colorlv1:'red',
-                colorlv2:'blank',
-                colorlv3:'blank'
+                level: 'Weak',
+                colorlv1: 'red',
+                colorlv2: 'blank',
+                colorlv3: 'blank'
             })
             console.log(this.state.level)
         }
-        else if (this.state.suPassword.length >= 6 && this.state.suPassword.length < 12 ){
+        else if (this.state.suPassword.length >= 6 && this.state.suPassword.length < 12) {
             this.setState({
-                level:'Normal',
-                colorlv1:'yell',
-                colorlv2:'yell',
-                colorlv3:'blank'
+                level: 'Normal',
+                colorlv1: 'yell',
+                colorlv2: 'yell',
+                colorlv3: 'blank'
             })
             console.log(this.state.level)
         }
-        else if (this.state.suPassword.length >= 12){
+        else if (this.state.suPassword.length >= 12) {
             this.setState({
-                level:'Strong',
-                colorlv1:'green',
-                colorlv2:'green',
-                colorlv3:'green'
+                level: 'Strong',
+                colorlv1: 'green',
+                colorlv2: 'green',
+                colorlv3: 'green'
             })
             console.log(this.state.level)
         }
-        
+
     }
 
     render() {
@@ -145,14 +160,14 @@ class SignUpForm extends React.Component {
                                 <input type='password' id='suPassword' className='suf' name='password' placeholder='Password' autoComplete='off' onChange={this.handleChange} required />
 
                             </div>
-                            <div className='pw-strength-area'>
+                            {/* <div className='pw-strength-area'>
                                 <div className='pw-lv'>
                                     <p className='pw-lv-text'>{this.state.level}:</p>
                                     <div id='pw-lv1' className={this.state.colorlv1}></div>
                                     <div id='pw-lv2' className={this.state.colorlv2}></div>
                                     <div id='pw-lv3' className={this.state.colorlv3}></div>
                                 </div>
-                            </div>
+                            </div> */}
                             <div className='confirm-pw'>
                                 <input type='password' id='suRepassword' className='suf' name='confirm password' placeholder='Confirm Password' autoComplete='off' onChange={this.handleChange} required />
                             </div>
