@@ -10,6 +10,7 @@
     "dayjs": "^1.8.16",
     "firebase": "^6.6.0",
     "node-sass": "^4.12.0",
+    "random-hash": "^4.0.1",
     "react": "^16.9.0",
     "react-bootstrap": "^1.0.0-beta.12",
     "react-dom": "^16.9.0",

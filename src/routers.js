@@ -8,6 +8,7 @@ import Auth from './components/auth/auth-component'
 import AuthHome from './components/auth/auth-home'
 //import {Redirect} from 'react-router-dom'
 import DashBoard from './pages/dashboard/dashboard'
+import TaskList from './pages/tasklist/tasklist'
 
 const MainRouter = () => (
     <main>
@@ -36,6 +37,7 @@ const MainRouter = () => (
             <Route path='/login' component={LoginPage}></Route>
             <Route path='/signup' component={SignupPage}></Route>
             <Route path='/forgotten-password' component={ForgotPassword}/>
+            <Route path='/task' component={TaskList}></Route>
         </Switch>
     </main>
 )

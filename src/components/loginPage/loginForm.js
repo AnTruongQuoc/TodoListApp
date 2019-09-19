@@ -30,7 +30,7 @@ class LoginForm extends React.Component {
             lastName: '',
             avatarURL: '',
             birthDay: '',
-            userPhone: '',
+            userPhone: '0909090909',
             isFailed: false,
             signedInFailed: '',
             isLogined: cookies.get('isLogin')
@@ -100,7 +100,9 @@ class LoginForm extends React.Component {
                 };
                 axios.get('http://192.168.2.48:4000/api/user', { headers }).then(res => {
                     
-                    console.log(res.data.userID)
+                    console.log(res.data)
+                    
+                    
                     
                     // self.setState({
 
@@ -121,6 +123,7 @@ class LoginForm extends React.Component {
                 //error here
             })
 
+            localStorage.setItem('password', self.state.password)
             self.props.history.push({
                 pathname: '/dashboard',
                 state: {
@@ -156,9 +159,8 @@ class LoginForm extends React.Component {
             else { }
             console.log(errCode, errMessage)
         })
-
-
         //console.log(this.state)
+        
     }
 
 
@@ -178,11 +180,12 @@ class LoginForm extends React.Component {
         }
     }
 
+    
 
     render() {
         return (
             <React.Fragment>
-
+                
                 {this.checkLoginStatus() ? <Redirect to='/dashboard' /> : console.log(this.state.isLogined)}
                 <div className='login-form'>
                     <h2 className='login-title'>LOGIN</h2>
@@ -206,7 +209,7 @@ class LoginForm extends React.Component {
                         </p>
                     </form>
                 </div>
-
+                
             </React.Fragment>
         )
     }

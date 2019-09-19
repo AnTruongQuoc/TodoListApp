@@ -37,13 +37,37 @@ class DashBoard extends React.Component {
 
 
         console.log(this.props)
+        this.taskRedirect = this.taskRedirect.bind(this)
+
         this.state = {
-            dbEmail: this.props.location.state.email,
-            dbPassword: this.props.location.state.password,
+            dbEmail: 'loi@gmail.com',
+            dbPassword: 'qweqwe',
             signOut: false,
+            boards: [
+                'demo',
+                
+            ],
+            count: 0
         }
         console.log(this.state)
 
+    }
+
+    componentDidMount() {
+
+    }
+
+    onClick = (e) => {
+        let name = 'Check'
+        this.state.boards.push(name)
+        this.forceUpdate()
+        //console.log(this.state.boards)
+    }
+
+    taskRedirect() {
+        console.log('Toggle toggle testing')
+        let path = '/task'
+        this.props.history.push(path)
     }
 
     gettingInfoUser(){
@@ -58,6 +82,8 @@ class DashBoard extends React.Component {
         //e.preventDefault()
         console.log(this.props.location)
         console.log(this.state)
+        let test = localStorage.getItem('password')
+        console.log('LocalStorage test: ', test)
         this.gettingInfoUser()
     }
 
@@ -83,7 +109,7 @@ class DashBoard extends React.Component {
                     </div>
 
                     <div className='body-board'>
-                        <p className='wel-title'>Welcome, <b>{this.props.location.state.email} </b>  !</p>
+                        <p className='wel-title'>Welcome, <b>{this.state.dbEmail} </b>  !</p>
 
                         <div className='bboard-area'>
                             <div className='b-nav-vertical'>
@@ -102,9 +128,20 @@ class DashBoard extends React.Component {
                             <div className='b-list-hor'>
                                 <h5 className='bl-title'>Your Boards</h5>
                                 <ul className='boards-section-list'>
+                                    {
+                                        this.state.boards.map((value, index) => {
+                                            
+                                            return(
+                                                <li key={index} value={value}  className={'boards-detail-section-list'} onClick={this.taskRedirect}>
+                                                    <h5>Board</h5>
+                                                    <p>{value}</p>
+                                                </li>
+                                            )
+                                        })
+                                    }
                                     <li className='boards-detail-section-list'>
                                         <div className='btn-create-boards'>
-                                            <button className='btn-cboard' type='button'> 
+                                            <button className='btn-cboard' type='button' onClick={this.onClick}> 
                                                 Creat New Board
                                             </button>
                                         </div>
