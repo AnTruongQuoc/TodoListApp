@@ -51,8 +51,8 @@ class SignUpForm extends React.Component {
                         'Content-Type': 'application/json',
                         'tokenIDS': idToken,
                     };
-
-                    axios.post('http://192.168.2.48:4000/api/user',
+                    
+                    axios.post('http://fd84df98.ngrok.io/api/user',
                         {
                             'email': self.state.suEmail,
                             'firstName': self.state.suFirstName,

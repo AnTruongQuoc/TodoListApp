@@ -10,7 +10,7 @@ class homepage extends React.Component {
         return (
             <React.Fragment>
                 <header>
-                    <ul className='nav'>
+                    <ul className='nav-home'>
                         <li className='logo'>TodoListApp</li>
                         <li className='log-in dec'><a className='login-link' href="/login" >Log in</a></li>
                         <li className='sign-up dec'><a className='signup-link' href="/signup" >Sign up</a></li>

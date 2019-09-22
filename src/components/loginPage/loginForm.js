@@ -6,11 +6,13 @@ import firebase from 'firebase/app'
 import { configDev } from '../../firebase/auth'
 //import { config } from '../../firebase/auth'
 import Cookies from 'universal-cookie'
-import { Redirect } from 'react-router-dom'
+import { Redirect} from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
 import axios from 'axios'
 
-
+export const Data = {
+    email: 'this.state.email'
+}
 
 class LoginForm extends React.Component {
 
@@ -79,16 +81,18 @@ class LoginForm extends React.Component {
 
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then(function (user) {
             //User signed in
-            self.setState({
-                isFailed: false,
-                signedInFailed: 'Verifying....'
-            })
+           
 
             //Set Cookies for Login
             const cookies = new Cookies()
             cookies.set('isLogin', true, { path: '/' })
 
-
+            self.setState({
+                isFailed: false,
+                signedInFailed: 'Verifying....',
+                isLogined: cookies.get('isLogin')
+            })
+            
 
             firebase.auth().currentUser.getIdToken(true).then(function (idToken) {
                 //send token to Backend via HTTP
@@ -98,14 +102,10 @@ class LoginForm extends React.Component {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'tokenID': tokenID,
                 };
-                axios.get('http://192.168.2.48:4000/api/user', { headers }).then(res => {
+                axios.get('http://fd84df98.ngrok.io/api/user', { headers }).then(res => {
                     
                     console.log(res.data)
-                    
-                    
-                    
                     // self.setState({
-
                     //     firstName: 'helloTest',
                     //     userIDs: res.data.userID,
                     //     lastName: res.data.lastName,
@@ -115,34 +115,33 @@ class LoginForm extends React.Component {
                     // })
                     // console.log(self.state)
                 })
-
-
-
                 console.log(idToken)
+
             }).catch(function (error) {
                 //error here
             })
 
-            localStorage.setItem('password', self.state.password)
-            self.props.history.push({
-                pathname: '/dashboard',
-                state: {
-                    email: self.state.email,
-                    password: self.state.password,
-                    firstName: self.state.firstName,
-                    userID: self.state.userID,
-                    lastName: self.state.lastName,
-                    avatarURL: self.state.avatarURL,
-                    birthDay: self.state.birthDay,
-                    userPhone: self.state.userPhone
-                }
-            })
+            //self.checkLoginStatus()
+            // localStorage.setItem('password', self.state.password)
+            // self.props.history.push({
+            //     pathname: '/dashboard',
+            //     state: {
+            //         email: self.state.email,
+            //         password: self.state.password,
+            //         firstName: self.state.firstName,
+            //         userID: self.state.userID,
+            //         lastName: self.state.lastName,
+            //         avatarURL: self.state.avatarURL,
+            //         birthDay: self.state.birthDay,
+            //         userPhone: self.state.userPhone
+            //     }
+            // })
 
             // const {history} = self.props;
             // history.push('/dashboard')
 
 
-            console.log('Login Successssssss')
+            //console.log('Login Successssssss')
             //console.log(self.state)
         }).catch(function (error) {
             //Error when signed in
@@ -174,10 +173,7 @@ class LoginForm extends React.Component {
         const cookies = new Cookies()
         const status = cookies.get('isLogin')
         if (status === 'true')
-            return true
-        else {
-            return false
-        }
+            return <Redirect to='/dashboard'/>
     }
 
     
@@ -186,7 +182,7 @@ class LoginForm extends React.Component {
         return (
             <React.Fragment>
                 
-                {this.checkLoginStatus() ? <Redirect to='/dashboard' /> : console.log(this.state.isLogined)}
+                {this.checkLoginStatus()}
                 <div className='login-form'>
                     <h2 className='login-title'>LOGIN</h2>
                     <form onSubmit={this.handleSubmit} className='login-place' autoComplete='on'>

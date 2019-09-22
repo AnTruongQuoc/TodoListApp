@@ -77,7 +77,7 @@ class ForgotPassword extends React.Component {
             <React.Fragment>
                 <div className='fpw-container'>
                     <header className='fpw-header'>
-                        <ul className='nav'>
+                        <ul className='nav-home'>
                             <li className='logo'>TodoListApp</li>
                             <li className='log-in dec'><a className='login-link' href="/login" >Log in</a></li>
                             <li className='sign-up dec'><a className='signup-link' href="/signup" >Sign up</a></li>

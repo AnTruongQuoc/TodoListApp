@@ -26,12 +26,11 @@ const MainRouter = () => (
             <Route path='/dashboard' render={
                 () => (
                     <Auth orRedirectTo='/login' orRender={
-                        <DashBoard></DashBoard>
-                        
+                        <DashBoard value={LoginPage.data}></DashBoard>
                     }>         
                     </Auth>
                 )
-            }></Route>
+            } ></Route>
 
            
             <Route path='/login' component={LoginPage}></Route>

@@ -5,12 +5,14 @@ import Cookies from 'universal-cookie'
 import 'firebase/auth'
 import 'firebase/firestore'
 import firebase from 'firebase/app'
-import {configDev} from '../../firebase/auth'
-
+import { configDev } from '../../firebase/auth'
+import { Modal, Alert } from 'react-bootstrap'
+import Button from 'react-bootstrap/Button'
+import { RandomHash } from 'random-hash'
 
 const SignOutBtn = withRouter(({ history }) => (true) ?
     <button className='btn-lgout' type='button' onClick={() => {
-        
+
         const cookies = new Cookies()
         cookies.set('isLogin', false, { path: '/' })
 
@@ -19,7 +21,7 @@ const SignOutBtn = withRouter(({ history }) => (true) ?
         }).catch((error) => {
             console.log(error.message)
         })
-        
+
         history.push('/')
     }}>
         LOG OUT
@@ -36,32 +38,132 @@ class DashBoard extends React.Component {
         }
 
 
-        console.log(this.props)
+        //console.log(this.props)
         this.taskRedirect = this.taskRedirect.bind(this)
 
         this.state = {
+            pos: 0,
+            onHideModal: false,
+            openModal: false,
+            openModalRemove: false,
             dbEmail: 'loi@gmail.com',
             dbPassword: 'qweqwe',
             signOut: false,
-            boards: [
-                'demo',
-                
-            ],
+            boardName: '',
+            boardColor: '',
+            boards: [],
             count: 0
         }
         console.log(this.state)
 
     }
-
-    componentDidMount() {
-
+    //Change COLOR BOARD
+    applyColorBlue = (e) => {
+        e.preventDefault()
+        this.setState({
+            boardColor: 'skyblue'
+        })
+    }
+    applyColorYellow = (e) => {
+        e.preventDefault()
+        this.setState({
+            boardColor: '#faf562'
+        })
+    }
+    applyColorRed = (e) => {
+        e.preventDefault()
+        this.setState({
+            boardColor: '#c93838'
+        })
+    }
+    applyColorGreen = (e) => {
+        e.preventDefault()
+        this.setState({
+            boardColor: '#01d28e'
+        })
+    }
+    //Change
+    handleInputName = (e) => {
+        this.setState({
+            boardName: e.target.value
+        })
     }
 
-    onClick = (e) => {
-        let name = 'Check'
-        this.state.boards.push(name)
+    removeBoard = pos => e => {
+        e.preventDefault()
+        this.state.boards.splice(pos, 1)
+       
         this.forceUpdate()
-        //console.log(this.state.boards)
+    }
+
+    //Working with MODAL 
+
+    //--> Remove Board by Popup with MODAL
+    onConfirmRemove = (e) => {
+        e.preventDefault()
+        this.state.boards.splice(this.state.pos, 1)
+        this.setState({
+            openModalRemove: false
+        })
+        this.forceUpdate()
+    }
+
+    //--> Close Remove Popup MODAL
+    closeModalRemove = (e) => {
+        e.preventDefault()
+        this.setState({
+            openModalRemove: false
+        })
+    }
+
+    //--> Open Remove Pop-up MODAL
+    openModalRemove = index => (e) => {
+        e.preventDefault()
+        this.setState({
+            openModalRemove: true,
+            pos: index
+        })
+    }
+    //----------------------------------------------------
+    handleOpenModal = (e) => {
+        e.preventDefault()
+        this.setState({
+            openModal: true
+        })
+    }
+    handleCloseModal = (e) => {
+        e.preventDefault()
+        this.setState({
+            openModal: false
+        })
+    }
+
+    handleOnHideCreate = () => {
+        this.setState({
+            openModal: false
+        })
+    }
+    onClick = (e) => {
+
+        e.preventDefault()
+
+        //create Board ID
+        const generateHash = new RandomHash();
+        let idBoard = generateHash({ length: 6 })
+
+        this.state.boards.push({
+            boardID: idBoard,
+            boardName: this.state.boardName,
+            boardColor: this.state.boardColor
+        })
+        this.forceUpdate()
+
+        console.log(this.state.boards)
+        this.setState({
+            openModal: false,
+            boardColor: '#76dbd1'
+        })
+
     }
 
     taskRedirect() {
@@ -70,20 +172,21 @@ class DashBoard extends React.Component {
         this.props.history.push(path)
     }
 
-    gettingInfoUser(){
+    gettingInfoUser() {
         const fbEmail = this.state.dbEmail
-        const  fbPassword = this.state.dbPassword
+        const fbPassword = this.state.dbPassword
         firebase.auth().signInWithEmailAndPassword(fbEmail, fbPassword).then(() => {
-            
+
         })
     }
 
     checking() {
         //e.preventDefault()
-        console.log(this.props.location)
-        console.log(this.state)
+        //console.log(this.props.location)
+        //console.log(this.state)
         let test = localStorage.getItem('password')
         console.log('LocalStorage test: ', test)
+        console.log(this.props)
         this.gettingInfoUser()
     }
 
@@ -113,16 +216,16 @@ class DashBoard extends React.Component {
 
                         <div className='bboard-area'>
                             <div className='b-nav-vertical'>
-                                
+
                                 <div className='b-btn-boards'>
                                     <a className='a-boards' href='/dashboard'>
-                                    
+
                                         <i className="far fa-calendar-alt"></i>
                                         Boards
-                               
+
                                     </a>
                                 </div>
-                                
+
                             </div>
 
                             <div className='b-list-hor'>
@@ -130,19 +233,32 @@ class DashBoard extends React.Component {
                                 <ul className='boards-section-list'>
                                     {
                                         this.state.boards.map((value, index) => {
-                                            
-                                            return(
-                                                <li key={index} value={value}  className={'boards-detail-section-list'} onClick={this.taskRedirect}>
-                                                    <h5>Board</h5>
-                                                    <p>{value}</p>
+                                            //console.log('index: ', index)
+                                            //console.log('value:', value)
+                                            const style = {
+                                                background: this.state.boards[index].boardColor
+                                            }
+                                            return (
+                                                <li key={index} style={style} className={'boards-detail-section-list'} >
+
+                                                    <div className='text-contain' onClick={this.taskRedirect}>
+                                                       <h5> {value.boardName}</h5>
+                                                        
+                                                    </div>
+
+
+                                                    <button className='btn-remove-board' onClick={this.openModalRemove(index)}>
+                                                        <i className="fas fa-times"></i>
+                                                    </button>
+
                                                 </li>
                                             )
                                         })
                                     }
                                     <li className='boards-detail-section-list'>
                                         <div className='btn-create-boards'>
-                                            <button className='btn-cboard' type='button' onClick={this.onClick}> 
-                                                Creat New Board
+                                            <button className='btn-cboard' type='button' onClick={this.handleOpenModal}>
+                                                Create New Board
                                             </button>
                                         </div>
                                     </li>
@@ -154,6 +270,55 @@ class DashBoard extends React.Component {
 
                     </div>
                 </div>
+
+                <Modal show={this.state.openModal} onHide={this.handleOnHideCreate}>
+                    <Modal.Header>
+                        <Modal.Title className='create-board'>
+                            Create New Board
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className='cover-name-input'>
+                            <input className='nameboard-input' type='text' placeholder='Your Name Board' onChange={this.handleInputName} required></input>
+                        </div>
+                        <div className='color-choose'>
+                            <button className='blue' onClick={this.applyColorBlue}></button>
+                            <button className='green' onClick={this.applyColorGreen}></button>
+                            <button className='yellow' onClick={this.applyColorYellow}></button>
+                            <button className='red' onClick={this.applyColorRed}></button>
+                        </div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.handleCloseModal}>
+                            Close
+                        </Button>
+                        <Button variant="primary" onClick={this.onClick}>
+                            Create
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+
+                <Modal show={this.state.openModalRemove} >
+                    <Modal.Header>
+                        <Modal.Title className='delete-board'>
+                            <i className="fas fa-exclamation-triangle"></i>
+                            Are you sure ?
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Alert key='danger' variant='danger'>
+                            <i>Be careful! This board will be deleted permanently.</i> 
+                        </Alert>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.closeModalRemove}>
+                            Close
+                        </Button>
+                        <Button variant="danger" onClick={this.onConfirmRemove}>
+                            Delete
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             </React.Fragment>
         )
     }
