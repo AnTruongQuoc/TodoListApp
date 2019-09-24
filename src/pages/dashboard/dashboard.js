@@ -1,25 +1,34 @@
 import React from 'react'
 import './dashboard.scss'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import Cookies from 'universal-cookie'
 import 'firebase/auth'
 import 'firebase/firestore'
 import firebase from 'firebase/app'
 import { configDev } from '../../firebase/auth'
-import { Modal, Alert } from 'react-bootstrap'
+import { Modal, Alert, ButtonToolbar } from 'react-bootstrap'
 import Button from 'react-bootstrap/Button'
-import { RandomHash } from 'random-hash'
+//import { RandomHash } from 'random-hash'
+import axios from 'axios'
+import {server} from '../../firebase/auth'
 
 const SignOutBtn = withRouter(({ history }) => (true) ?
     <button className='btn-lgout' type='button' onClick={() => {
 
         const cookies = new Cookies()
         cookies.set('isLogin', false, { path: '/' })
+        const email = localStorage.getItem('email'),
+            pass = localStorage.getItem('password')
 
-        firebase.auth().signOut().then(() => {
-            console.log('Sign out Successful')
-        }).catch((error) => {
-            console.log(error.message)
+        firebase.auth().signInWithEmailAndPassword(email, pass).then(() => {
+            firebase.auth().signOut().then(() => {
+                console.log('Sign out Successful')
+                localStorage.clear()
+            }).catch((error) => {
+                console.log(error.message)
+            })
+        }).catch((err) => {
+            console.log(err.message)
         })
 
         history.push('/')
@@ -39,24 +48,34 @@ class DashBoard extends React.Component {
 
 
         //console.log(this.props)
-        this.taskRedirect = this.taskRedirect.bind(this)
+        //this.taskRedirect = this.taskRedirect.bind(this)
+        var str = localStorage.getItem('email')
+        var n = str.indexOf('@')
+        var name = str.substr(0, n)
 
         this.state = {
             pos: 0,
+            isUpdated: false,
             onHideModal: false,
             openModal: false,
             openModalRemove: false,
-            dbEmail: 'loi@gmail.com',
-            dbPassword: 'qweqwe',
+            name: name,
+            dbEmail: localStorage.getItem('email'),
+            dbPassword: localStorage.getItem('password'),
             signOut: false,
             boardName: '',
             boardColor: '',
             boards: [],
             count: 0
         }
-        console.log(this.state)
+
 
     }
+
+    UNSAFE_componentWillMount() {
+        this.updateState()
+    }
+
     //Change COLOR BOARD
     applyColorBlue = (e) => {
         e.preventDefault()
@@ -82,6 +101,7 @@ class DashBoard extends React.Component {
             boardColor: '#01d28e'
         })
     }
+
     //Change
     handleInputName = (e) => {
         this.setState({
@@ -92,7 +112,6 @@ class DashBoard extends React.Component {
     removeBoard = pos => e => {
         e.preventDefault()
         this.state.boards.splice(pos, 1)
-       
         this.forceUpdate()
     }
 
@@ -101,11 +120,30 @@ class DashBoard extends React.Component {
     //--> Remove Board by Popup with MODAL
     onConfirmRemove = (e) => {
         e.preventDefault()
-        this.state.boards.splice(this.state.pos, 1)
+        //this.state.boards.splice(this.state.pos, 1)
+
+        const tokenID = localStorage.getItem('tokenID')
+        const headers = {
+            'Content-Type': 'application/json',
+            'tokenID': tokenID,
+        };
+        const boardID = this.state.boards[this.state.pos].boardID
+        const path = server + '/api/user/board/' + boardID
+        axios.delete(path, { headers }).then(() => {
+            this.state.boards.splice(this.state.pos, 1)
+            this.forceUpdate()
+        })
+
         this.setState({
             openModalRemove: false
         })
         this.forceUpdate()
+    }
+
+    handleOnHideDelete= () => {
+        this.setState({
+            openModalRemove: false
+        })
     }
 
     //--> Close Remove Popup MODAL
@@ -131,6 +169,7 @@ class DashBoard extends React.Component {
             openModal: true
         })
     }
+
     handleCloseModal = (e) => {
         e.preventDefault()
         this.setState({
@@ -143,33 +182,60 @@ class DashBoard extends React.Component {
             openModal: false
         })
     }
+
+
+    //------CREATE BOARD-------
     onClick = (e) => {
 
         e.preventDefault()
 
         //create Board ID
-        const generateHash = new RandomHash();
-        let idBoard = generateHash({ length: 6 })
+        //const generateHash = new RandomHash();
+        //let idBoard = generateHash({ length: 6 })
+ 
+        //send token to Backend via HTTP
+        const tokenID = localStorage.getItem('tokenID')
 
-        this.state.boards.push({
-            boardID: idBoard,
-            boardName: this.state.boardName,
-            boardColor: this.state.boardColor
-        })
-        this.forceUpdate()
+        const headers = {
+            'Content-Type': 'application/json',
+            'tokenID': tokenID,
+        };
 
-        console.log(this.state.boards)
+        const path = server + '/api/user/board'
+        axios.post(path, {
+            'boardName': this.state.boardName,
+            'boardColor': this.state.boardColor,
+            'status': ''
+        },
+            { headers })
+            .then((res) => {
+                this.state.boards.push({
+                    boardName: this.state.boardName,
+                    boardColor: this.state.boardColor,
+                    status: '',
+                    boardID: res.data.boardID
+                })
+                this.forceUpdate()
+            })
+
+
+        //console.log(this.state.boards)
         this.setState({
             openModal: false,
-            boardColor: '#76dbd1'
+            boardColor: '#76dbd1',
+            isUpdated: false
         })
+
 
     }
 
     taskRedirect() {
         console.log('Toggle toggle testing')
-        let path = '/task'
-        this.props.history.push(path)
+        // let path = '/dashboard/123/task'
+        // this.props.history.push(path)
+
+        //return <Redirect to='/dashboard/123/task'/>
+
     }
 
     gettingInfoUser() {
@@ -180,25 +246,60 @@ class DashBoard extends React.Component {
         })
     }
 
-    checking() {
-        //e.preventDefault()
-        //console.log(this.props.location)
-        //console.log(this.state)
-        let test = localStorage.getItem('password')
-        console.log('LocalStorage test: ', test)
-        console.log(this.props)
-        this.gettingInfoUser()
-    }
+    
+    setLocal = pos => e => {
 
+        localStorage.setItem('details', JSON.stringify(this.state.boards[pos].details))
+    }
+    updateState() {
+        //const tokenID = localStorage.getItem('tokenID')
+        //const cookies = new Cookies()
+        //const tokenID = cookies.get('tokenID')
+
+        let a = this.state.isUpdated
+        //console.log('.........:', a)
+        if (a === false) {
+            let self = this
+            //send token to Backend via HTTP
+            firebase.auth().signInWithEmailAndPassword(this.state.dbEmail, this.state.dbPassword).then(() => {
+                firebase.auth().currentUser.getIdToken(true).then((idToken) => {
+                    const headers = {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'tokenID': idToken,
+                    };
+                    //console.log('DUMAAAAAA: ', headers)
+
+                    const path = server + '/api/user/boards'
+                    axios.get(path, { headers }).then(res => {
+
+                        console.log('Request Board', res.data)
+
+                        self.setState({
+                            boards: res.data,
+                            isUpdated: true
+                        })
+                    }).catch((err) => {
+                        console.log(err)
+                    })
+                })
+            })
+        }
+
+
+    }
     render() {
         return (
             <React.Fragment>
+
+                {this.updateState()}
                 <div className='boards'>
                     <div className='nav-board'>
                         <div className='nav-board-c1'>
-                            <button className='btn-home' type='button' onClick={this.checking()}>
-                                <i className="fas fa-home fa-2x" />
-                            </button>
+                            <Link to='/dashboard'>
+                                <button className='btn-home' type='button'>
+                                    <i className="fas fa-home fa-2x" />
+                                </button>
+                            </Link>
 
                         </div>
                         <div className='nav-board-c2'>
@@ -212,7 +313,11 @@ class DashBoard extends React.Component {
                     </div>
 
                     <div className='body-board'>
-                        <p className='wel-title'>Welcome, <b>{this.state.dbEmail} </b>  !</p>
+                        <p className='wel-title'>Welcome, <b>
+                        {
+                            this.state.name
+                        } 
+                        </b>  !</p>
 
                         <div className='bboard-area'>
                             <div className='b-nav-vertical'>
@@ -233,18 +338,24 @@ class DashBoard extends React.Component {
                                 <ul className='boards-section-list'>
                                     {
                                         this.state.boards.map((value, index) => {
-                                            //console.log('index: ', index)
+
+                                            const id = this.state.boards[index].boardID
+                                            const name = this.state.boards[index].boardName
+                                            const path = '/b/' + index + '/' + id + '/' + name
+
+                                            //console.log(path)
                                             //console.log('value:', value)
                                             const style = {
-                                                background: this.state.boards[index].boardColor
+                                                backgroundColor: this.state.boards[index].boardColor
                                             }
+
+                                            //console.log('Background: ', style)
                                             return (
                                                 <li key={index} style={style} className={'boards-detail-section-list'} >
 
-                                                    <div className='text-contain' onClick={this.taskRedirect}>
-                                                       <h5> {value.boardName}</h5>
-                                                        
-                                                    </div>
+                                                    <Link to={path} className='text-contain' value={this.state.boards} onClick={this.setLocal(index)}>
+                                                        <h5> {value.boardName}</h5>
+                                                    </Link>
 
 
                                                     <button className='btn-remove-board' onClick={this.openModalRemove(index)}>
@@ -292,13 +403,13 @@ class DashBoard extends React.Component {
                         <Button variant="secondary" onClick={this.handleCloseModal}>
                             Close
                         </Button>
-                        <Button variant="primary" onClick={this.onClick}>
-                            Create
-                        </Button>
+                        <ButtonToolbar>
+                            <Button variant="primary" onClick={this.onClick}> Create </Button>
+                        </ButtonToolbar>
                     </Modal.Footer>
                 </Modal>
 
-                <Modal show={this.state.openModalRemove} >
+                <Modal show={this.state.openModalRemove} onHide={this.handleOnHideDelete}>
                     <Modal.Header>
                         <Modal.Title className='delete-board'>
                             <i className="fas fa-exclamation-triangle"></i>
@@ -307,7 +418,7 @@ class DashBoard extends React.Component {
                     </Modal.Header>
                     <Modal.Body>
                         <Alert key='danger' variant='danger'>
-                            <i>Be careful! This board will be deleted permanently.</i> 
+                            <i>Be careful! This board will be deleted permanently.</i>
                         </Alert>
                     </Modal.Body>
                     <Modal.Footer>

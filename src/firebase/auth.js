@@ -1,3 +1,6 @@
+//Server link
+export const server = 'http://38c24b82.ngrok.io'
+
 
 // Config of TodoList-demoTest (Firebase)
 export const config= {

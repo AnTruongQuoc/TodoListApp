@@ -98,6 +98,32 @@
             margin-left: 20px;
             font-family: montserrat;
             font-size: 24px;
+
+            .btn-edit-title{
+                border: none;
+                background-color: transparent;
+                margin: 0 15px;
+                
+                
+                transition: all 0.4s ease-in-out;
+                border-radius: 50%;
+                &:hover{
+                    background-color: #01d28e;
+                   
+                }
+                &:active{
+                    background-color: #42b883;
+                    border-radius: 50%;
+                    
+                }
+                &:focus{
+                    outline: none;
+                }
+                .fas{
+                    color: #032535;
+                    
+                }
+            }
         }
 
         .task-list{

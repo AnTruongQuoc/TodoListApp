@@ -23,7 +23,7 @@ const MainRouter = () => (
                 )
             }/>
 
-            <Route path='/dashboard' render={
+            <Route exact path='/dashboard' render={
                 () => (
                     <Auth orRedirectTo='/login' orRender={
                         <DashBoard value={LoginPage.data}></DashBoard>
@@ -36,7 +36,7 @@ const MainRouter = () => (
             <Route path='/login' component={LoginPage}></Route>
             <Route path='/signup' component={SignupPage}></Route>
             <Route path='/forgotten-password' component={ForgotPassword}/>
-            <Route path='/task' component={TaskList}></Route>
+            <Route path='/b/:pos/:id/:name' component={TaskList}></Route>
         </Switch>
     </main>
 )

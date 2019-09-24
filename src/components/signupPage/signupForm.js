@@ -4,7 +4,10 @@ import 'firebase/auth'
 import firebase from 'firebase/app'
 import { configDev } from '../../firebase/auth'
 //import { config } from '../../firebase/auth'
+import {server} from '../../firebase/auth'
 import axios from 'axios'
+
+
 class SignUpForm extends React.Component {
     constructor(props) {
         super(props)
@@ -52,7 +55,8 @@ class SignUpForm extends React.Component {
                         'tokenIDS': idToken,
                     };
                     
-                    axios.post('http://fd84df98.ngrok.io/api/user',
+                    const path = server + '/api/user'
+                    axios.post(path,
                         {
                             'email': self.state.suEmail,
                             'firstName': self.state.suFirstName,

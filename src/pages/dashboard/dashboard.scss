@@ -215,6 +215,7 @@
                             flex-direction: column;
                             align-items: center;
                             justify-content: center;
+                            text-decoration: none;
                             h5{
                                 width: 100%;
                                 font-size: 20px;
@@ -223,7 +224,7 @@
                                 font-family: montserrat;
                                 overflow: hidden;
                                 text-overflow: ellipsis;
-                                
+                                color: #333;
  
                             }
                             p{

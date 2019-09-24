@@ -9,10 +9,9 @@ import Cookies from 'universal-cookie'
 import { Redirect} from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
 import axios from 'axios'
+import {server} from '../../firebase/auth'
 
-export const Data = {
-    email: 'this.state.email'
-}
+
 
 class LoginForm extends React.Component {
 
@@ -83,64 +82,55 @@ class LoginForm extends React.Component {
             //User signed in
            
 
-            //Set Cookies for Login
-            const cookies = new Cookies()
-            cookies.set('isLogin', true, { path: '/' })
+            
 
             self.setState({
                 isFailed: false,
                 signedInFailed: 'Verifying....',
-                isLogined: cookies.get('isLogin')
+               
             })
             
 
             firebase.auth().currentUser.getIdToken(true).then(function (idToken) {
                 //send token to Backend via HTTP
                 const tokenID = idToken
+                localStorage.setItem('tokenID', idToken)
+                
+                const cookies = new Cookies()
+                cookies.set('tokenID', idToken, {path: '/'})
 
                 const headers = {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'tokenID': tokenID,
                 };
-                axios.get('http://fd84df98.ngrok.io/api/user', { headers }).then(res => {
-                    
-                    console.log(res.data)
-                    // self.setState({
-                    //     firstName: 'helloTest',
-                    //     userIDs: res.data.userID,
-                    //     lastName: res.data.lastName,
-                    //     avatarURL: res.data.avatarURL,
-                    //     birthDay: res.data.birthDay,
-                    //     userPhone: res.data.userPhone
-                    // })
-                    // console.log(self.state)
+
+                const path = server + '/api/user'
+                axios.get(path , { headers }).then(res => {
+                    //Do sth here
+                    console.log('User info:', res.data)
+                }).catch((err) => {
+
+                    //Show error
+                    console.log(err)
                 })
-                console.log(idToken)
+                
 
             }).catch(function (error) {
                 //error here
             })
 
             //self.checkLoginStatus()
-            // localStorage.setItem('password', self.state.password)
-            // self.props.history.push({
-            //     pathname: '/dashboard',
-            //     state: {
-            //         email: self.state.email,
-            //         password: self.state.password,
-            //         firstName: self.state.firstName,
-            //         userID: self.state.userID,
-            //         lastName: self.state.lastName,
-            //         avatarURL: self.state.avatarURL,
-            //         birthDay: self.state.birthDay,
-            //         userPhone: self.state.userPhone
-            //     }
-            // })
+            localStorage.setItem('email', self.state.email)
+            localStorage.setItem('password', self.state.password)
+            
+            //Set Cookies for Login
+            const cookies = new Cookies()
+            cookies.set('isLogin', true, { path: '/' })
 
-            // const {history} = self.props;
-            // history.push('/dashboard')
-
-
+            self.setState({
+                isLogined: cookies.get('isLogin')
+            })
+            
             //console.log('Login Successssssss')
             //console.log(self.state)
         }).catch(function (error) {
