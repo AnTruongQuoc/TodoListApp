@@ -9,7 +9,7 @@ import AuthHome from './components/auth/auth-home'
 //import {Redirect} from 'react-router-dom'
 import DashBoard from './pages/dashboard/dashboard'
 import TaskList from './pages/tasklist/tasklist'
-
+import errPage from './pages/404page/404page'
 const MainRouter = () => (
     <main>
         <Switch>
@@ -33,10 +33,11 @@ const MainRouter = () => (
             } ></Route>
 
            
-            <Route path='/login' component={LoginPage}></Route>
-            <Route path='/signup' component={SignupPage}></Route>
-            <Route path='/forgotten-password' component={ForgotPassword}/>
-            <Route path='/b/:pos/:id/:name' component={TaskList}></Route>
+            <Route exact path='/login' component={LoginPage}></Route>
+            <Route exact path='/signup' component={SignupPage}></Route>
+            <Route exact path='/forgotten-password' component={ForgotPassword}/>
+            <Route exact path='/b/:pos/:id/:name' component={TaskList}></Route>
+            <Route component={errPage}></Route>
         </Switch>
     </main>
 )
