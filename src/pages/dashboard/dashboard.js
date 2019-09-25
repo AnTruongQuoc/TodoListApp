@@ -59,6 +59,7 @@ class DashBoard extends React.Component {
             onHideModal: false,
             openModal: false,
             openModalRemove: false,
+            openModalEdit: false,
             name: name,
             dbEmail: localStorage.getItem('email'),
             dbPassword: localStorage.getItem('password'),
@@ -116,6 +117,59 @@ class DashBoard extends React.Component {
     }
 
     //Working with MODAL 
+
+    onConfirmEdit = (e) => {
+        e.preventDefault()
+        //this.state.boards.splice(this.state.pos, 1)
+
+        const tokenID = localStorage.getItem('tokenID')
+        const headers = {
+            'Content-Type': 'application/json',
+            'tokenID': tokenID,
+        };
+        const boardID = this.state.boards[this.state.pos].boardID
+        const path = server + '/api/user/board/' + boardID
+        axios.put(path, {
+            'boardName': 'newname'
+        } ,{ headers }).then((res) => {
+            console.log('Changeeeeee:', res.data)
+
+            let temp = this.state.boards
+            temp[this.state.pos].boardName = res.data.boardName
+            
+            this.setState({
+                boards: temp,
+                openModalEdit: false
+            })
+            this.forceUpdate()
+        })
+
+       
+        
+    }
+
+    handleOnHideEdit = () => {
+        this.setState({
+            openModalEdit: false
+        })
+    }
+
+    //--> Close Remove Popup MODAL
+    closeModalEdit = (e) => {
+        e.preventDefault()
+        this.setState({
+            openModalEdit: false
+        })
+    }
+
+    //--> Open Remove Pop-up MODAL
+    openModalEdit = index => (e) => {
+        e.preventDefault()
+        this.setState({
+            openModalEdit: true,
+            pos: index
+        })
+    }
 
     //--> Remove Board by Popup with MODAL
     onConfirmRemove = (e) => {
@@ -359,7 +413,7 @@ class DashBoard extends React.Component {
 
 
                                                     <div className='btn-board-area'>
-                                                        <button className='btn-edit-board' onClick={this.openModalRemove(index)}>
+                                                        <button className='btn-edit-board' onClick={this.openModalEdit(index)}>
                                                             <i class="fas fa-pencil-alt"></i>
                                                         </button>
                                                         <button className='btn-remove-board' onClick={this.openModalRemove(index)}>
@@ -430,6 +484,28 @@ class DashBoard extends React.Component {
                             Close
                         </Button>
                         <Button variant="danger" onClick={this.onConfirmRemove}>
+                            Delete
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+
+                <Modal show={this.state.openModalEdit} onHide={this.handleOnHideEdit}>
+                    <Modal.Header>
+                        <Modal.Title className='delete-board'>
+                            <i className="fas fa-exclamation-triangle"></i>
+                            Are you sure ?
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Alert key='danger' variant='danger'>
+                            <i>Be careful! This board will be deleted permanently.</i>
+                        </Alert>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.closeModalEdit}>
+                            Close
+                        </Button>
+                        <Button variant="danger" onClick={this.onConfirmEdit}>
                             Delete
                         </Button>
                     </Modal.Footer>

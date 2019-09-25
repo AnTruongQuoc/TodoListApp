@@ -197,6 +197,7 @@
                             display: flex;
                             flex-direction: column;
                             align-items: center;
+                            width: 20%;
                             justify-content: center;
                             .btn-edit-board{
                                 border: none;
@@ -204,7 +205,8 @@
                                 border-radius: 50%;
                                 float: right;
                                 z-index: 999;
-                                
+                                color: #333;
+                                margin: 0 0 5px 0;
                                 transition: all .4s ease;
                                 &:hover{
                                     background-color: #1089ff;
@@ -223,7 +225,9 @@
                                 border-radius: 50%;
                                 float: right;
                                 z-index: 999;
-                                
+                                color: #333;
+                                margin: 5px 0 0 0;
+                                padding: 1px 8px;
                                 transition: all .4s ease;
                                 &:hover{
                                     background-color: #ff5858;
