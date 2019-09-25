@@ -22,6 +22,11 @@ body {
     .modal-dialog{
       .modal-content{
         .modal-header{
+          .edit-board{
+            .far {
+              padding: 0 10px 0 0;
+            }
+          }
           .create-board{
             margin: 0 auto 0 auto;
           }
@@ -41,6 +46,94 @@ body {
         }
 
         .modal-body{
+          .form-edit-task{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            .in-edit-t{
+              width: 60%;
+              margin-bottom: 10px;
+              border: none;
+              border-bottom: 2px solid #333;
+              text-align: center;
+              font-family: montserrat;
+              font-size: 18px;
+              &:focus{
+                outline: none;
+              }
+            } 
+
+            .form-btn-gr{
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+              align-content: stretch;
+              margin: 10px 0;
+   
+              width: 40%;
+              .fas{
+                padding: 0;
+              }
+
+              .btn-close{
+                border-radius: 50%;
+                padding: 6px 14px;
+                margin: 0 5px;
+              }
+
+              .btn-submit{
+                border-radius: 50%;
+                margin: 0 5px;
+              }
+            }
+          }
+
+          .form-edit-b{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            .in-edit-b{
+              width: 60%;
+              margin-bottom: 10px;
+              border: none;
+              border-bottom: 2px solid #333;
+              text-align: center;
+              font-family: montserrat;
+              font-size: 18px;
+              &:focus{
+                outline: none;
+              }
+            } 
+
+            .form-btn-gr{
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+              align-content: stretch;
+              margin: 10px 0;
+   
+              width: 40%;
+              .fas{
+                padding: 0;
+              }
+
+              .btn-close{
+                border-radius: 50%;
+                padding: 6px 14px;
+                margin: 0 5px;
+              }
+
+              .btn-submit{
+                border-radius: 50%;
+                margin: 0 5px;
+              }
+            }
+          }
+
           .form-group{
             .form-edit-des{
               display: flex;

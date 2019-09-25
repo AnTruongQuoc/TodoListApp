@@ -122,7 +122,7 @@ class TaskList extends React.Component {
         axios.put(path, {
             'description': this.state.description
         }, { headers }).then((res) => {
-             console.log(res.data)
+            console.log(res.data)
             // let temp = this.state.List
             // temp[num.listPos].taskContent[num.taskPos].description = res.data.description
             // console.log('temp desciption:', temp[num.listPos].taskContent[num.taskPos].taskName)
@@ -422,14 +422,17 @@ class TaskList extends React.Component {
             //Axios get board by boardID from Database
             const pathBoard = server + '/api/user/boards'
             axios.get(pathBoard, { headers }).then((res) => {
+                this.setState({
+                    details: res.data[this.props.match.params.pos].details
+                })
                 const detailsT = res.data[this.props.match.params.pos].details
 
                 localStorage.setItem('details', JSON.stringify(detailsT))
+
+                
+
+                console.log('detailssssssssssssss: ', this.state.details)
                 //const details = JSON.parse(localStorage.getItem('details'))
-
-
-
-
 
                 const boardID = this.props.match.params.id
                 //Axios get task List from Database
@@ -437,10 +440,15 @@ class TaskList extends React.Component {
 
                 axios.get(pathTask, { headers }).then(res => {
                     console.log('testinggggg: ', localStorage.getItem('details'))
-
                     console.log('Checking storeeee:', localStorage.details === null)
-                    const details = JSON.parse(localStorage.getItem('details'))
-                    //const details = this.state.details
+                    let details = []
+                    if (localStorage.getItem('details') === 'undefined'){
+                        details = this.state.details
+                    }
+                    else {
+                        details = JSON.parse(localStorage.getItem('details'))
+                    }
+                        //const details = this.state.details
                     const statusList = []
 
                     for (var i = 0; i < details.length; i++) {
@@ -507,8 +515,8 @@ class TaskList extends React.Component {
                     <div className='nav-area'>
                         <div className='name-board'>
                             {this.props.match.params.name}
-                            <button type='button' className='btn-edit-title' onClick={this.openEditModal}>
-                                <i className="fas fa-pencil-alt"></i>
+                            <button type='button' className='btn-edit-title' onClick={this.openEditModal} disabled>
+                                <i className="far fa-star"></i>
                             </button>
                         </div>
                         <div className='task-list'>
@@ -546,11 +554,17 @@ class TaskList extends React.Component {
                                                                         <Modal.Body>
 
                                                                             <form onSubmit={this.submitEditTaskName(num)} className='form-edit-task'>
-                                                                                <input type='text' placeholder='New Task Name' onChange={this.handleInputEditTask} required />
-                                                                                <Button variant="secondary" onClick={this.closeModalEditTask}>
-                                                                                    Close
-                                                                                </Button>
-                                                                                <input type='submit' value='Edit' className='btn btn-primary'></input>
+                                                                                <input type='text' className='in-edit-t' placeholder='New Task Name' onChange={this.handleInputEditTask} required />
+                                                                                <div className='form-btn-gr'>
+                                                                                    <Button variant="danger" className='btn-close' onClick={this.closeModalEditTask}>
+                                                                                        <i className="fas fa-times"></i>
+                                                                                    </Button>
+                                                                                    <button type='submit' className='btn btn-success btn-submit'>
+                                                                                        <i className="fas fa-check"></i>
+                                                                                    </button>
+                                                                                </div>
+
+
                                                                             </form>
 
 

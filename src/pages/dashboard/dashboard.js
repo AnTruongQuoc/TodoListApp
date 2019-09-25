@@ -77,7 +77,7 @@ class DashBoard extends React.Component {
         this.updateState()
     }
 
-    //Change COLOR BOARD
+    //Change COLOR BOARD----------------------------------
     applyColorBlue = (e) => {
         e.preventDefault()
         this.setState({
@@ -102,23 +102,17 @@ class DashBoard extends React.Component {
             boardColor: '#01d28e'
         })
     }
-
+    //-----------------------------------------------------
     //Change
-    handleInputName = (e) => {
+
+
+    //Working with MODAL -----------------------------------------
+    handleEditBoardInput = (e) => {
         this.setState({
             boardName: e.target.value
         })
     }
-
-    removeBoard = pos => e => {
-        e.preventDefault()
-        this.state.boards.splice(pos, 1)
-        this.forceUpdate()
-    }
-
-    //Working with MODAL 
-
-    onConfirmEdit = (e) => {
+    handleSubmitEdit = (e) => {
         e.preventDefault()
         //this.state.boards.splice(this.state.pos, 1)
 
@@ -130,39 +124,33 @@ class DashBoard extends React.Component {
         const boardID = this.state.boards[this.state.pos].boardID
         const path = server + '/api/user/board/' + boardID
         axios.put(path, {
-            'boardName': 'newname'
-        } ,{ headers }).then((res) => {
+            'boardName': this.state.boardName
+        }, { headers }).then((res) => {
             console.log('Changeeeeee:', res.data)
 
             let temp = this.state.boards
             temp[this.state.pos].boardName = res.data.boardName
-            
+
             this.setState({
                 boards: temp,
                 openModalEdit: false
             })
             this.forceUpdate()
         })
-
-       
-        
     }
-
     handleOnHideEdit = () => {
         this.setState({
             openModalEdit: false
         })
     }
-
-    //--> Close Remove Popup MODAL
+    //--> Close Edit Popup MODAL
     closeModalEdit = (e) => {
         e.preventDefault()
         this.setState({
             openModalEdit: false
         })
     }
-
-    //--> Open Remove Pop-up MODAL
+    //--> Open Edit Pop-up MODAL
     openModalEdit = index => (e) => {
         e.preventDefault()
         this.setState({
@@ -170,7 +158,7 @@ class DashBoard extends React.Component {
             pos: index
         })
     }
-
+    //-------------------------------------------------------------
     //--> Remove Board by Popup with MODAL
     onConfirmRemove = (e) => {
         e.preventDefault()
@@ -193,6 +181,18 @@ class DashBoard extends React.Component {
         })
         this.forceUpdate()
     }
+    handleInputName = (e) => {
+        this.setState({
+            boardName: e.target.value
+        })
+    }
+
+    removeBoard = pos => e => {
+        e.preventDefault()
+        this.state.boards.splice(pos, 1)
+        this.forceUpdate()
+    }
+
 
     handleOnHideDelete = () => {
         this.setState({
@@ -365,7 +365,6 @@ class DashBoard extends React.Component {
                             <SignOutBtn />
                         </div>
                     </div>
-
                     <div className='body-board'>
                         <p className='wel-title'>Welcome, <b>
                             {
@@ -375,13 +374,10 @@ class DashBoard extends React.Component {
 
                         <div className='bboard-area'>
                             <div className='b-nav-vertical'>
-
                                 <div className='b-btn-boards'>
                                     <a className='a-boards' href='/dashboard'>
-
                                         <i className="far fa-calendar-alt"></i>
                                         Boards
-
                                     </a>
                                 </div>
 
@@ -411,10 +407,9 @@ class DashBoard extends React.Component {
                                                         <h5> {value.boardName}</h5>
                                                     </Link>
 
-
                                                     <div className='btn-board-area'>
                                                         <button className='btn-edit-board' onClick={this.openModalEdit(index)}>
-                                                            <i class="fas fa-pencil-alt"></i>
+                                                            <i className="fas fa-pencil-alt"></i>
                                                         </button>
                                                         <button className='btn-remove-board' onClick={this.openModalRemove(index)}>
                                                             <i className="fas fa-times"></i>
@@ -491,24 +486,28 @@ class DashBoard extends React.Component {
 
                 <Modal show={this.state.openModalEdit} onHide={this.handleOnHideEdit}>
                     <Modal.Header>
-                        <Modal.Title className='delete-board'>
-                            <i className="fas fa-exclamation-triangle"></i>
-                            Are you sure ?
+                        <Modal.Title className='edit-board'>
+                            <i className="far fa-edit"></i>
+                            Edit Board Name
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <Alert key='danger' variant='danger'>
-                            <i>Be careful! This board will be deleted permanently.</i>
-                        </Alert>
+                        <form className='form-edit-b' onSubmit={this.handleSubmitEdit}>
+                            <input className='in-edit-b' type='text' placeholder='New Board Name' onChange={this.handleEditBoardInput} required />
+                            <div className='form-btn-gr'>
+                                <Button className='btn-close' variant="danger" onClick={this.closeModalEdit}>
+                                    <i className="fas fa-times"></i>
+                                </Button>
+                                <button className='btn btn-success btn-submit' type='submit'>
+                                    <i className="fas fa-check"></i>
+                                </button>
+                            </div>
+
+                        </form>
+
+
                     </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={this.closeModalEdit}>
-                            Close
-                        </Button>
-                        <Button variant="danger" onClick={this.onConfirmEdit}>
-                            Delete
-                        </Button>
-                    </Modal.Footer>
+
                 </Modal>
             </React.Fragment>
         )

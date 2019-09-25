@@ -109,17 +109,21 @@
                 border-radius: 50%;
                 &:hover{
                     background-color: #01d28e;
-                   
+                    .far{
+                        color: #fdef96;
+                    }
                 }
                 &:active{
                     background-color: #42b883;
                     border-radius: 50%;
-                    
+                    .far{
+                        color: #ffdd67;
+                    }
                 }
                 &:focus{
                     outline: none;
                 }
-                .fas{
+                .far{
                     color: #032535;
                     
                 }
