@@ -101,16 +101,18 @@
 
             .btn-edit-title{
                 border: none;
-                background-color: transparent;
+                //background-color: transparent;
                 margin: 0 15px;
                 
-                
+                background-color: #cf455c;
+                    
                 transition: all 0.4s ease-in-out;
                 border-radius: 50%;
                 &:hover{
-                    background-color: #01d28e;
+                    background-color: #42b883;
+                    border-radius: 50%;
                     .far{
-                        color: #fdef96;
+                        color: #ffdd67;
                     }
                 }
                 &:active{
@@ -124,8 +126,8 @@
                     outline: none;
                 }
                 .far{
-                    color: #032535;
-                    
+                    color: #fdef96;
+                    animation: spin 10s linear infinite;
                 }
             }
         }
@@ -360,4 +362,13 @@
             }
         }
     }
+}
+
+@keyframes spin {
+    0% {
+		transform: rotateZ(0);
+	}
+	100% {
+		transform: rotateZ(360deg);
+	}
 }
