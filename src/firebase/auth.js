@@ -1,6 +1,7 @@
 //Server link
-export const server = 'http://38c24b82.ngrok.io'
-
+//export const server = 'http://38c24b82.ngrok.io'  //Server Ngrok
+export const server = 'http://192.168.0.150:4000' //Server local Kien An
+//export const server = 'http://103.221.223.126:4000' //Server Ngnix
 
 // Config of TodoList-demoTest (Firebase)
 export const config= {

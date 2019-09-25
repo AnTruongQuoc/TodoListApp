@@ -41,6 +41,12 @@ body {
         }
 
         .modal-body{
+          .form-group{
+            .form-edit-des{
+              display: flex;
+              flex-direction: column;
+            }
+          }
           .fas{
             padding: 0 10px 0 0;
           }

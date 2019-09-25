@@ -267,6 +267,30 @@
                                 
                                 margin: 0;
                             }
+
+                            .btn-change-task{
+                                border: none;
+                                border-radius: 3px;
+                                padding: 3px auto;
+                                background-color: transparent;
+                                .fas{
+                                    color: #8395a7;
+                                }
+                                &:hover{
+                                    background-color: #8bbabb;
+                                    .fas{
+                                        color: #333;
+                                    }
+                                }
+                                &:focus{
+                                    outline: none;
+                                } 
+                                &:active:focus{
+                                    outline: none;
+                                    border-radius: 5px;
+                                }
+                            }
+
                             .btn-remove-task{
                                 
                                 border: none;

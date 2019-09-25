@@ -80,17 +80,11 @@ class LoginForm extends React.Component {
 
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then(function (user) {
             //User signed in
-           
-
-            
-
             self.setState({
                 isFailed: false,
                 signedInFailed: 'Verifying....',
                
             })
-            
-
             firebase.auth().currentUser.getIdToken(true).then(function (idToken) {
                 //send token to Backend via HTTP
                 const tokenID = idToken

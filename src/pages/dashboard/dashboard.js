@@ -10,7 +10,7 @@ import { Modal, Alert, ButtonToolbar } from 'react-bootstrap'
 import Button from 'react-bootstrap/Button'
 //import { RandomHash } from 'random-hash'
 import axios from 'axios'
-import {server} from '../../firebase/auth'
+import { server } from '../../firebase/auth'
 
 const SignOutBtn = withRouter(({ history }) => (true) ?
     <button className='btn-lgout' type='button' onClick={() => {
@@ -140,7 +140,7 @@ class DashBoard extends React.Component {
         this.forceUpdate()
     }
 
-    handleOnHideDelete= () => {
+    handleOnHideDelete = () => {
         this.setState({
             openModalRemove: false
         })
@@ -192,7 +192,7 @@ class DashBoard extends React.Component {
         //create Board ID
         //const generateHash = new RandomHash();
         //let idBoard = generateHash({ length: 6 })
- 
+
         //send token to Backend via HTTP
         const tokenID = localStorage.getItem('tokenID')
 
@@ -246,7 +246,7 @@ class DashBoard extends React.Component {
         })
     }
 
-    
+
     setLocal = pos => e => {
 
         localStorage.setItem('details', JSON.stringify(this.state.boards[pos].details))
@@ -314,9 +314,9 @@ class DashBoard extends React.Component {
 
                     <div className='body-board'>
                         <p className='wel-title'>Welcome, <b>
-                        {
-                            this.state.name
-                        } 
+                            {
+                                this.state.name
+                            }
                         </b>  !</p>
 
                         <div className='bboard-area'>
@@ -358,10 +358,14 @@ class DashBoard extends React.Component {
                                                     </Link>
 
 
-                                                    <button className='btn-remove-board' onClick={this.openModalRemove(index)}>
-                                                        <i className="fas fa-times"></i>
-                                                    </button>
-
+                                                    <div className='btn-board-area'>
+                                                        <button className='btn-edit-board' onClick={this.openModalRemove(index)}>
+                                                            <i class="fas fa-pencil-alt"></i>
+                                                        </button>
+                                                        <button className='btn-remove-board' onClick={this.openModalRemove(index)}>
+                                                            <i className="fas fa-times"></i>
+                                                        </button>
+                                                    </div>
                                                 </li>
                                             )
                                         })

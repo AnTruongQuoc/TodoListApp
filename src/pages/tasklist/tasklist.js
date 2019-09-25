@@ -14,7 +14,7 @@ import ProgressBar from 'react-bootstrap/ProgressBar'
 import Form from 'react-bootstrap/Form'
 import Alert from 'react-bootstrap/Alert'
 import axios from 'axios'
-import {server} from '../../firebase/auth'
+import { server } from '../../firebase/auth'
 
 const SignOutBtn = withRouter(({ history }) => (true) ?
     <button className='btn-lgout' type='button' onClick={() => {
@@ -66,22 +66,75 @@ class TaskList extends React.Component {
 
         this.state = {
             isUpdated: false,
+            numTask: {},
             email: localStorage.getItem('email'),
             password: localStorage.getItem('password'),
             showModal: false,
             sModalEdit: false,
+            sModalEditTask: false,
             taskInput: '',
+            editInput: '',
+            editTaskIn: '',
             listID: '',
             listTitle: '',
             List: [],
+            statusList: [],
             TList: [],
+            details: [],
             ListName: 'Done',
-            taskContent: []
+            boardName: 'Default',
+            description: '',
+            taskContent: [],
+            isMounted: false
         }
 
         console.log(this.props)
     }
 
+    componentDidMount() {
+        this.loadBoardFirst()
+    }
+
+    handleDescription = (e) => {
+        e.preventDefault()
+
+        this.setState({
+            description: e.target.value
+        })
+    }
+
+    submitDescription = num => e => {
+        e.preventDefault()
+
+        console.log('Nummmmmmmmm:', num)
+        const tokenID = localStorage.getItem('tokenID')
+
+        const headers = {
+            'Content-Type': 'application/json',
+            'tokenID': tokenID,
+        };
+
+        const boardID = this.props.match.params.id
+        const taskID = this.state.List[num.listPos].taskContent[num.taskPos].id
+        console.log('Task ID: ', taskID)
+
+        const path = server + '/api/user/board/' + boardID + '/task/' + taskID
+        axios.put(path, {
+            'description': this.state.description
+        }, { headers }).then((res) => {
+             console.log(res.data)
+            // let temp = this.state.List
+            // temp[num.listPos].taskContent[num.taskPos].description = res.data.description
+            // console.log('temp desciption:', temp[num.listPos].taskContent[num.taskPos].taskName)
+
+            this.setState({
+                //List: temp,
+                isUpdated: false
+            })
+
+            //this.forceUpdate()
+        })
+    }
     //Working with MODAL - React-Bootstrap
     handleClose = num => e => {
         e.preventDefault()
@@ -112,6 +165,45 @@ class TaskList extends React.Component {
         this.setState({
             sModalEdit: false
         })
+    }
+
+    handleInputEdit = (e) => {
+        this.setState({
+            editInput: e.target.value
+        })
+    }
+
+
+
+
+
+    submitEditName = (e) => {
+
+        e.preventDefault()
+        //Get TokenID by localStorage
+        const tokenID = localStorage.getItem('tokenID')
+        //Headers
+        const headers = {
+            'Content-Type': 'application/json',
+            'tokenID': tokenID,
+        };
+
+        const boardID = this.props.match.params.id
+        const pathEdit = server + '/api/user/board/' + boardID
+        axios.put(pathEdit, {
+            'boardName': this.state.editInput
+        }, { headers }).then((res) => {
+            console.log(res.data)
+            const link = '/b/' + this.props.match.params.pos + '/' + this.props.match.params.id + '/' + res.data.boardName
+            this.props.history.push(link)
+
+        }).catch((err) => console.log(err))
+
+        this.setState({
+            sModalEdit: false,
+            isUpdated: false
+        })
+        this.forceUpdate()
     }
 
     //Working with Task
@@ -145,6 +237,62 @@ class TaskList extends React.Component {
             this.forceUpdate()
         })
     }
+
+    openModalEditTask = num => (e) => {
+        e.preventDefault()
+        this.setState({
+            sModalEditTask: true,
+            numTask: num
+        })
+    }
+
+    closeModalEditTask = (e) => {
+        e.preventDefault()
+
+        this.setState({
+            sModalEditTask: false
+        })
+    }
+
+    handleInputEditTask = (e) => {
+        this.setState({
+            editTaskIn: e.target.value
+        })
+    }
+    submitEditTaskName = num => e => {
+        e.preventDefault()
+        //console.log(num)
+        console.log('Nummmmmmmmm:', num)
+        const tokenID = localStorage.getItem('tokenID')
+
+        const headers = {
+            'Content-Type': 'application/json',
+            'tokenID': tokenID,
+        };
+
+        const boardID = this.props.match.params.id
+        const taskID = this.state.List[this.state.numTask.listPos].taskContent[this.state.numTask.taskPos].id
+        console.log('Task ID: ', taskID)
+
+        const path = server + '/api/user/board/' + boardID + '/task/' + taskID
+        axios.put(path, {
+            'taskName': this.state.editTaskIn
+        }, { headers }).then((res) => {
+            console.log(res.data)
+            let temp = this.state.List
+            temp[this.state.numTask.listPos].taskContent[this.state.numTask.taskPos].taskName = res.data.taskName
+            console.log('temp taskname:', temp[this.state.numTask.listPos].taskContent[this.state.numTask.taskPos].taskName)
+
+            this.setState({
+                List: temp,
+                sModalEditTask: false,
+                isUpdated: false
+            })
+
+            //this.forceUpdate()
+        })
+    }
+
     onSubmitTask = value => e => {
         e.preventDefault()
         console.log(value)
@@ -236,12 +384,31 @@ class TaskList extends React.Component {
             return <Redirect to='/login' />
     }
 
+    loadBoardFirst() {
+        //Get TokenID by localStorage
+        const tokenID = localStorage.getItem('tokenID')
+
+
+        //Headers
+        const headers = {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'tokenID': tokenID,
+        };
+
+        //Axios get board by boardID from Database
+        const pathBoard = server + '/api/user/boards'
+        axios.get(pathBoard, { headers }).then((res) => {
+            const detailsT = res.data[this.props.match.params.pos].details
+            localStorage.setItem('details', JSON.stringify(detailsT))
+        }).catch((err) => { console.log(err) })
+    }
+
     updateTask() {
         let a = this.state.isUpdated
         console.log('.........:', a)
 
         if (a === false) {
-            
+
             //Get TokenID by localStorage
             const tokenID = localStorage.getItem('tokenID')
 
@@ -256,51 +423,58 @@ class TaskList extends React.Component {
             const pathBoard = server + '/api/user/boards'
             axios.get(pathBoard, { headers }).then((res) => {
                 const detailsT = res.data[this.props.match.params.pos].details
+
                 localStorage.setItem('details', JSON.stringify(detailsT))
-            }).catch((err) => {console.log(err)})
-
-            const boardID = this.props.match.params.id
+                //const details = JSON.parse(localStorage.getItem('details'))
 
 
-            //Axios get task List from Database
-            const pathTask = server + '/api/user/board/' + boardID + '/tasks'
-            axios.get(pathTask, { headers }).then(res => {
 
-                const details = JSON.parse(localStorage.getItem('details'))
-                const statusList = []
 
-                for (var i = 0; i < details.length; i++) {
-                    statusList.push({
-                        status: details[i].status,
-                        taskContent: []
-                    })
-                }
 
-                for (i = 0; i < res.data.length; i++) {
-                    for (var j = 0; j < statusList.length; j++) {
-                        if (statusList[j].status === res.data[i].status) {
-                            statusList[j].taskContent.push({
-                                content: res.data[i].taskName,
-                                showDetail: false,
-                                id: res.data[i].taskID
-                            })
+                const boardID = this.props.match.params.id
+                //Axios get task List from Database
+                const pathTask = server + '/api/user/board/' + boardID + '/tasks'
+
+                axios.get(pathTask, { headers }).then(res => {
+                    console.log('testinggggg: ', localStorage.getItem('details'))
+
+                    console.log('Checking storeeee:', localStorage.details === null)
+                    const details = JSON.parse(localStorage.getItem('details'))
+                    //const details = this.state.details
+                    const statusList = []
+
+                    for (var i = 0; i < details.length; i++) {
+                        statusList.push({
+                            status: details[i].status,
+                            taskContent: []
+                        })
+                    }
+
+                    for (i = 0; i < res.data.length; i++) {
+                        for (var j = 0; j < statusList.length; j++) {
+                            if (statusList[j].status === res.data[i].status) {
+                                statusList[j].taskContent.push({
+                                    content: res.data[i].taskName,
+                                    showDetail: false,
+                                    id: res.data[i].taskID,
+                                    description: res.data[i].description
+                                })
+                            }
                         }
                     }
-                }
 
-                console.log('hello testing', statusList)
+                    console.log('hello testing', this.state.List)
 
-                this.setState({
-                    List: statusList,
-                    isUpdated: true
+                    this.setState({
+                        List: statusList,
+                        isUpdated: true
+                    })
+                    this.forceUpdate()
+                    console.log('Request Task in Board', res.data)
+
                 })
-                console.log('Request Task in Board', res.data)
-
-            })
+            }).catch((err) => { console.log(err) })
         }
-
-
-
     }
     //------------------------------------------RENDER ZONE-------------------------------
     render() {
@@ -357,9 +531,37 @@ class TaskList extends React.Component {
                                                             return (
                                                                 <div key={value + index} className='list-task'>
                                                                     <div className='task-content' onClick={this.openTaskDetail(num)}> {this.state.List[pos].taskContent[value].content} </div>
+
+                                                                    <button className='btn-change-task' onClick={this.openModalEditTask(num)}>
+                                                                        <i className="fas fa-edit"></i>
+                                                                    </button>
+
+                                                                    <Modal show={this.state.sModalEditTask} onHide={this.handleOnHideEditTask}>
+                                                                        <Modal.Header>
+                                                                            <Modal.Title className='edit-board-name'>
+                                                                                <i className="far fa-edit"></i>
+                                                                                Edit Your Task Name
+                                                                            </Modal.Title>
+                                                                        </Modal.Header>
+                                                                        <Modal.Body>
+
+                                                                            <form onSubmit={this.submitEditTaskName(num)} className='form-edit-task'>
+                                                                                <input type='text' placeholder='New Task Name' onChange={this.handleInputEditTask} required />
+                                                                                <Button variant="secondary" onClick={this.closeModalEditTask}>
+                                                                                    Close
+                                                                                </Button>
+                                                                                <input type='submit' value='Edit' className='btn btn-primary'></input>
+                                                                            </form>
+
+
+                                                                        </Modal.Body>
+
+                                                                    </Modal>
+
                                                                     <button className='btn-remove-task' onClick={this.removeTask(num)}>
                                                                         <i className="fas fa-times"></i>
                                                                     </button>
+
                                                                     <Modal size='lg' show={this.state.List[pos].taskContent[value].showDetail} >
                                                                         <Modal.Header>
                                                                             <Modal.Title>
@@ -369,17 +571,22 @@ class TaskList extends React.Component {
                                                                         </Modal.Header>
                                                                         <Modal.Body>
 
-                                                                            <Alert key='danger' variant='danger'>
-                                                                                <b>Sorry! This part we haven't initialized it yet ! Coming Soon...</b>
-                                                                            </Alert>
+
+
                                                                             <Form.Group controlId="exampleForm.ControlTextarea1">
                                                                                 <Form.Label>
                                                                                     <i className="fas fa-align-justify"></i>
                                                                                     Description
                                                                                 </Form.Label>
-                                                                                <Form.Control as="textarea" rows="3" />
-                                                                            </Form.Group>
 
+                                                                                <form onSubmit={this.submitDescription(num)} className='form-edit-des'>
+                                                                                    <textarea row='3' onChange={this.handleDescription}>{this.state.List[pos].taskContent[value].description}</textarea>
+                                                                                    <input type='submit' value='Edit Description' />
+                                                                                </form>
+                                                                            </Form.Group>
+                                                                            <Alert key='danger' variant='danger'>
+                                                                                <b>Sorry! This part we haven't initialized it yet ! Coming Soon...</b>
+                                                                            </Alert>
                                                                             <Form.Group controlId="exampleForm.ControlTextarea2">
                                                                                 <Form.Label>
                                                                                     <i className="fas fa-check"></i>
@@ -456,19 +663,18 @@ class TaskList extends React.Component {
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        
-                        <form>
-                            <input type='text' placeholder='Board Name'></input>
+
+                        <form onSubmit={this.submitEditName}>
+                            <input type='text' placeholder='Board Name' onChange={this.handleInputEdit} required />
                             <Button variant="secondary" onClick={this.closeModalEdit}>
                                 Close
                             </Button>
                             <input type='submit' value='Edit' className='btn btn-primary'></input>
-                        
                         </form>
-                        
-                        
+
+
                     </Modal.Body>
-                   
+
                 </Modal>
 
             </React.Fragment>
