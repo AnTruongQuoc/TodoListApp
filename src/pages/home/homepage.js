@@ -41,6 +41,17 @@ class homepage extends React.Component {
                         <div className='s2-c2-title'>
                             <h1 className='t2-feature'>NEW FEATURE</h1>
                         </div>
+                        <div className='s2-c2-body'>
+                            <h1 className='t2-body'>COOMING SOON !</h1>
+                            <div className='move yell'></div>
+                            <div className='move red'></div>
+                            <div className='move orange'></div>
+                            <div className='move green'></div>
+                            <div className='move g1'></div>
+                            <div className='move g2'></div>
+                            <div className='move g3'></div>
+
+                        </div>
                     </div>
 
                 </div>

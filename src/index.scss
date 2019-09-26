@@ -51,6 +51,7 @@ body {
             flex-direction: column;
             align-items: center;
             justify-content: center;
+
             .in-edit-t{
               width: 60%;
               margin-bottom: 10px;
@@ -63,7 +64,13 @@ body {
                 outline: none;
               }
             } 
-
+            .edit-status-area{
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+              margin: 15px 0;
+            }
             .form-btn-gr{
               display: flex;
               flex-direction: row;
@@ -80,12 +87,12 @@ body {
               .btn-close{
                 border-radius: 50%;
                 padding: 6px 14px;
-                margin: 0 5px;
+                margin: 0 10px;
               }
 
               .btn-submit{
                 border-radius: 50%;
-                margin: 0 5px;
+                margin: 0 10px;
               }
             }
           }
@@ -138,6 +145,10 @@ body {
             .form-edit-des{
               display: flex;
               flex-direction: column;
+
+              .btn-edit-des{
+                margin-top: 10px;
+              }
             }
           }
           .fas{

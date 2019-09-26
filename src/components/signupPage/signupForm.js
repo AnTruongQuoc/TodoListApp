@@ -18,13 +18,12 @@ class SignUpForm extends React.Component {
 
         this.state = {
             suEmail: '',
-            suUser: '',
+            suFirstName: '',
+            suLastName: '',
             suPassword: '',
-            suFirstName: 'An',
             suUserID: '',
-            suLastName: 'Truong',
             suAvatarURL: 'nolink.com',
-            suBirthDay: '03/02/2019',
+            suBirthDay: '',
             suUserPhone: '0968344544',
             suRepassword: '',
             wrongRePass: '',
@@ -79,7 +78,7 @@ class SignUpForm extends React.Component {
                     isWrongRePass: false,
                     successMess: 'Sign-up successfully! You can login now'
                 })
-
+                self.forceUpdate()
             }).catch(function (error) {
                 var errCode = error.code
                 if (errCode === 'auth/email-already-in-use') {
@@ -154,7 +153,11 @@ class SignUpForm extends React.Component {
                     <div className='su-div'>
                         <form onSubmit={this.handleSubmit} className='su-form' id='__signup-form' autoComplete='on'>
                             <div className='username'>
-                                <input type='text' id='suUser' className='suf' name='username' placeholder='Username' autoComplete='on' onChange={this.handleChange} required />
+                                <input type='text' id='suFirstName' className='suf' name='firstname' placeholder='First Name' autoComplete='on' onChange={this.handleChange} required />
+                                <input type='text' id='suLastName' className='suf' name='lastname' placeholder='Last Name' autoComplete='on' onChange={this.handleChange}   />
+                            </div>
+                            <div className='suBirthday'>
+                                <input type='date' id='suBirthDay' className='suf' name='birthday' placeholder='Your Birthday' autoComplete='off' onChange={this.handleChange} required />
                             </div>
                             <div className='email'>
                                 <input type='email' id='suEmail' className='suf' name='email' placeholder='Your E-mail' autoComplete='off' onChange={this.handleChange} required />

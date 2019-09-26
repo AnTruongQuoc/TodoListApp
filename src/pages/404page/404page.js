@@ -24,13 +24,13 @@ class errPage extends Component {
                     <div className='err-body'>
                         <h5 className='lyw'>Lost your way ?</h5>
                         <div className='img-container'>
-                            <img className='errIMG otto' src={otto} />
-                            <img className='errIMG sat' src={sat} />
-                            <img className='errIMG moon' src={moon} />
-                            <img className='errIMG bone' src={bone} />
-                            <img className='errIMG planet' src={planet} />
-                            <img className='errIMG pBlue' src={pBlue} />
-                            <img className='errIMG pYell' src={pYell} />
+                            <img className='errIMG otto' alt='otto' src={otto} />
+                            <img className='errIMG sat' alt='sat' src={sat} />
+                            <img className='errIMG moon' alt='moon' src={moon} />
+                            <img className='errIMG bone' alt='bone' src={bone} />
+                            <img className='errIMG planet' alt='planet' src={planet} />
+                            <img className='errIMG pBlue' alt='planet_blue' src={pBlue} />
+                            <img className='errIMG pYell' alt='splanet_yellow' src={pYell} />
                         </div>
                     
                     </div>

@@ -86,11 +86,21 @@
                 }   
             }
         }
+
+        @media screen and (max-width: 680px) {
+            width: 100%;
+            
+        }
     }
     
     .login-area{
         float: left;
         width: 60%;
         height: 100vh;
+
+        @media screen and (max-width: 680px) {
+            width: 100%;
+        }
     }
+
 }

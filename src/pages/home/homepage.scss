@@ -83,14 +83,17 @@
 
     .container{
         
-        margin-left: 10vw;
-        margin-right: 10vw;
+        margin-left: 5vw;
+        margin-right: 5vw;
         padding: 150px 5px 50px 5px;
-        
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
         height: 600px;
         
         .text-intro{
-            float:left;
+            
             padding-left: 50px;
             width: 50%;
             //height: 400px;
@@ -135,10 +138,15 @@
                 
 
             }
+            @media screen  and (max-width: 1014px){
+                width: 100%;
+                margin-left: 0;
+                margin-right: 0;
+            }
         }
     
         .image{
-            float:left;
+            
             padding-right: 50px;
             width: 50%;
             //height: 400px;
@@ -146,9 +154,16 @@
             .hp-image{
                 padding-top: 20px;
                 width: 400px;
-                min-width: 445px;
-                max-width: 1000px;
+                
+                @media screen  and (max-width: 1014px){
+                    display: none;
+                    
+                }
+            }
 
+            @media screen  and (max-width: 1014px){
+                width: 0px;
+                
             }
         }
     }
@@ -167,6 +182,85 @@
         .t2-feature{
             margin: 0;
             color: #696464;
+        }
+    }
+
+    .s2-c2-body{
+        position: relative;
+        padding: 150px 0px;
+        text-align: center;
+        .t2-body{
+            margin: 0;
+            color: #4f81c7;
+            font-size: 60px;
+            animation: yell 4s ease-in-out infinite;
+        }
+        .move {
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        .yell{
+            background-color: #f6f078;
+            height: 30px;
+            width: 30px;
+            left: 22%;
+            animation: yell 4.5s ease-in-out infinite;
+        }
+
+        .red{
+            background-color: #c93838;
+            height: 20px;
+            width: 20px;
+            left: 62%;
+            animation: yell 3.5s ease-in-out infinite;
+        }
+
+        .orange{
+            background-color: #ff7e67;
+            height: 45px;
+            width: 45px;
+            top: 35%;
+            left: 32%;
+            z-index: -1;
+            animation: yell 6.5s ease-in-out infinite;
+        }
+
+        .green{
+            background-color: #42b883;
+            height: 22px;
+            width: 22px;
+            top: 15%;
+            left: 42%;
+            animation: yell 2.9s ease-in-out infinite;
+        }
+
+        .g1{
+            background-color: #49beb7;
+            height: 70px;
+            width: 70px;
+            top: 28%;
+            left: 72%;
+            z-index: -1;
+            animation: yell 10s ease-in-out infinite;
+        }
+
+        .g2{
+            background-color: #e8647c;
+            height: 10px;
+            width: 10px;
+            top: 15%;
+            left: 12%;
+            animation: yell 2.9s ease-in-out infinite;
+        }
+
+        .g3 {
+            background-color: #602080;
+            height: 22px;
+            width: 22px;
+            top: 75%;
+            left: 42%;
+            animation: yell 2.9s ease-in-out infinite;
         }
     }
 }   
@@ -232,4 +326,16 @@
         }
     }
 
+}
+
+@keyframes yell{
+    0% {
+        transform: translateY(0)
+    }
+    50%{
+        transform: translateY(12px)
+    }
+    100%{
+        transform: translateY(0)
+    }
 }

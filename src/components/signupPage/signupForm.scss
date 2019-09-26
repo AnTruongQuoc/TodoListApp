@@ -20,6 +20,28 @@
         padding: 0;
         .su-form{
             width: 100%;
+            .username{
+                width: 70%;
+                margin: auto;
+                display: flex;
+                flex-basis: row;
+                #suFirstName{
+                    width: 40%;
+                    margin-right: 5px;
+                    transition:  all 0.5s linear;
+                    &:focus{
+                        border-bottom: 1.5px solid green;
+                    }
+                }
+
+                #suLastName{
+                    transition:  all 0.5s linear;
+                    &:focus{
+                        border-bottom: 1.5px solid green;
+                    }
+                }
+                
+            }
             .pw-strength-area{
                 width: 70%;
                 margin: auto;
@@ -70,7 +92,7 @@
                 }
             }
             .suf{
-                margin-top: 10px;
+                margin-top: 0px;
                 width: 70%;
                 outline: none;
                 border: none;
@@ -83,6 +105,19 @@
             }
             #suRepassword{
                 margin: auto;
+                transition:  all 0.5s linear;
+                    &:focus{
+                        border-bottom: 1.5px solid green;
+                    }
+            }
+            #suPassword, 
+            #suEmail, 
+            #suBirthday
+            {
+                transition:  all 0.5s linear;
+                    &:focus{
+                        border-bottom: 1.5px solid green;
+                    }
             }
             .submit-suf{
                 background-color: #002651;
@@ -151,3 +186,4 @@
       border-color: indianred;
     }
   }
+

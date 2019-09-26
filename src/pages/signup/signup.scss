@@ -52,6 +52,10 @@
             }
         }
 
+        @media screen and (max-width: 780px)
+        {
+            width: 100%;
+        }
     }
 
     .sup-img-right{
@@ -62,5 +66,10 @@
         background-image: url(../../assets/signup_small.png);
         background-size: cover;
 
+        @media screen and (max-width: 780px)
+        {
+            width: 0px;
+        }
     }
 }
+
