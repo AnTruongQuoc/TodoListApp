@@ -4,7 +4,7 @@ import React from 'react'
 //import Row from 'react-bootstrap/Row'
 import './homepage.scss'
 import hpimage from '../../assets/hp-image.png'
-
+import todoIMG from '../../assets/todoIMG.gif'
 class homepage extends React.Component {
     render() {
         return (
@@ -60,6 +60,10 @@ class homepage extends React.Component {
                     <div className='container-3'>
                         <div className='s3-c3-title'>
                             <h1 className='t3-feature'>CREATE YOUR PLAN WITH TODOLIST APP</h1>
+                        </div>
+
+                        <div className='img-s3'>
+                            <img className='todo-img-demo' alt='demo' src={todoIMG}/>
                         </div>
                     </div>
 
