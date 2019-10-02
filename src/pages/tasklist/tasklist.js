@@ -15,7 +15,7 @@ import Form from 'react-bootstrap/Form'
 import Alert from 'react-bootstrap/Alert'
 import axios from 'axios'
 import { server } from '../../firebase/auth'
-
+import AvatarBtn from '../../components/avatarBtn/avatarBtn'
 
 const SignOutBtn = withRouter(({ history }) => (true) ?
     <button className='btn-lgout' type='button' onClick={() => {
@@ -64,8 +64,14 @@ class TaskList extends React.Component {
             firebase.initializeApp(configDev);
         }
 
+        var str = localStorage.getItem('email')
+        var n = str.indexOf('@')
+        var name = str.substr(0, n)
 
         this.state = {
+            name: name,
+            dbEmail: localStorage.getItem('email'),
+            dbPassword: localStorage.getItem('password'),
             isUpdated: false,
             numTask: {},
             email: localStorage.getItem('email'),
@@ -174,10 +180,6 @@ class TaskList extends React.Component {
             editInput: e.target.value
         })
     }
-
-
-
-
 
     submitEditName = (e) => {
 
@@ -606,6 +608,22 @@ class TaskList extends React.Component {
             }).catch((err) => { console.log(err) })
         }
     }
+
+    onDrop = (e) => {
+        e.preventDefault();
+        console.log('eventtttttt:'  ,e)
+        var data = e.dataTransfer.getData("text");
+        e.target.appendChild(document.getElementById(data));
+    }
+
+    allowDrop = (e) => {
+        e.preventDefault()
+    }
+
+    handleDrap = (e) => {
+        
+        e.dataTransfer.setData('text', e.target.id)
+    }
     //------------------------------------------RENDER ZONE-------------------------------
     render() {
         return (
@@ -629,7 +647,8 @@ class TaskList extends React.Component {
                             </div>
                         </div>
                         <div className='nav-board-c3'>
-                            <SignOutBtn />
+                            
+                            <AvatarBtn name={this.state.name} data={this.state}/>
                         </div>
 
                     </div>
@@ -654,12 +673,12 @@ class TaskList extends React.Component {
                                                         <i className="far fa-trash-alt"></i>
                                                     </button>
                                                 </div>
-                                                <div className='list-task-container'>
+                                                <div className='list-task-container' onDrop={this.onDrop} onDragOver={this.allowDrop}>
                                                     {
                                                         this.state.List[pos].taskContent.map((index, value) => {
                                                             const num = { 'listPos': pos, 'taskPos': value }
                                                             return (
-                                                                <div key={value + index} className='list-task'>
+                                                                <div key={value + index} id='data' className='list-task' draggable="true" onDragStart={this.handleDrag}>
                                                                     <div className='task-content' onClick={this.openTaskDetail(num)}> {this.state.List[pos].taskContent[value].content} </div>
 
                                                                     <button className='btn-change-task' onClick={this.openModalEditTask(num)}>

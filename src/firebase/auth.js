@@ -2,7 +2,7 @@
 //export const server = 'http://a2e59005.ngrok.io'  //Server Ngrok
 //export const server = 'http://192.168.0.150:4000' //Server local Kien An
 export const server = 'http://103.221.223.126:4000' //Server Ngnix
-
+//export const server = 'http://192.168.2.49:4000' //Server Tung
 // Config of TodoList-demoTest (Firebase)
 export const config= {
     apiKey: "AIzaSyApZD1LrfqPZcbBDKyccpjCzxbeaanNKdo",

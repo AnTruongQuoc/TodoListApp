@@ -86,6 +86,75 @@
                 }
     
             }
+
+            .custom-drd-noti{
+                height: 50px;
+                width: 50px;
+                float: right;
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                .dropdown-menu-right{
+                    .dropdown-header{
+                        text-align: center;
+                        letter-spacing: 0.05rem;
+                        font-family: montserrat;
+                    }
+                }
+                
+                .btn{
+                    //float: right;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 3px;
+                    margin-right: 6px;
+                }
+                .btn-primary{
+                    background-color: transparent;
+                    border: none;
+                }
+                .dropdown-toggle:after{
+                    border: none;
+                    display: none;
+                }
+            }
+            .custom-drd-btn{
+                height: 50px;
+                width: 50px;
+                float: right;
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                .dropdown-menu-right{
+                    .dropdown-header{
+                        text-align: center;
+                        letter-spacing: 0.05rem;
+                        font-family: montserrat;
+                    }
+                }
+                
+                .btn{
+                    //float: right;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 3px;
+                    margin-right: 6px;
+                }
+                .btn-primary{
+                    background-color: transparent;
+                    border: none;
+                }
+                .dropdown-toggle:after{
+                    border: none;
+                    display: none;
+                }
+            }
+
+        
         }
     }
 

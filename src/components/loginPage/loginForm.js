@@ -6,10 +6,10 @@ import firebase from 'firebase/app'
 import { configDev } from '../../firebase/auth'
 //import { config } from '../../firebase/auth'
 import Cookies from 'universal-cookie'
-import { Redirect} from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
 import axios from 'axios'
-import {server} from '../../firebase/auth'
+import { server } from '../../firebase/auth'
 
 
 
@@ -34,7 +34,8 @@ class LoginForm extends React.Component {
             userPhone: '0909090909',
             isFailed: false,
             signedInFailed: '',
-            isLogined: cookies.get('isLogin')
+            isLogined: cookies.get('isLogin'),
+            isAdmin: false
         }
     }
 
@@ -65,33 +66,28 @@ class LoginForm extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault()
-        var self = this
+
+        let self = this
 
         this.setState({
             isFailed: false,
             signedInFailed: ''
         })
 
-        // const cookies = new Cookies()
-        // console.log(cookies.get('isLogin'))
-        // console.log(cookies.get('isOff'))
-
-
-
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then(function (user) {
             //User signed in
             self.setState({
                 isFailed: false,
                 signedInFailed: 'Verifying....',
-               
+
             })
             firebase.auth().currentUser.getIdToken(true).then(function (idToken) {
                 //send token to Backend via HTTP
                 const tokenID = idToken
                 localStorage.setItem('tokenID', idToken)
-                
+
                 const cookies = new Cookies()
-                cookies.set('tokenID', idToken, {path: '/'})
+                cookies.set('tokenID', idToken, { path: '/' })
 
                 const headers = {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -99,15 +95,42 @@ class LoginForm extends React.Component {
                 };
 
                 const path = server + '/api/user'
-                axios.get(path , { headers }).then(res => {
+                axios.get(path, { headers }).then(res => {
                     //Do sth here
-                    console.log('User info:', res.data)
+                    console.log('User infoooooo:', res.data)
+
+                    if (res.data.typeUser === 'admin') {
+                        console.log('checking inside:', res.data)
+                        const cookies = new Cookies()
+                        cookies.set('isLogin', true, { path: '/' })
+                        cookies.set('isAdmin', true, { path: '/' })
+
+                        let pathAD = server + '/api/admin'
+
+                        axios.get(pathAD, { headers }).then((res) => {
+                            console.log(res)
+                        }).catch((err) => {
+                            console.log(err.message)
+                        })
+                    }
+                    else {
+                        console.log('Setting cookies')
+                        const cookies = new Cookies()
+                        cookies.set('isLogin', true, { path: '/' })
+                        cookies.set('isAdmin', false, { path: '/' })
+                        self.setState({
+                            isLogined: cookies.get('isLogin')
+                       })
+                       self.forceUpdate()
+                    }
+                    console.log('Chuan bi ra ngoai')
                 }).catch((err) => {
 
                     //Show error
+                    //alert('Server is down. Please try later')
                     console.log(err)
                 })
-                
+
 
             }).catch(function (error) {
                 //error here
@@ -116,16 +139,14 @@ class LoginForm extends React.Component {
             //self.checkLoginStatus()
             localStorage.setItem('email', self.state.email)
             localStorage.setItem('password', self.state.password)
-            
-            //Set Cookies for Login
-            const cookies = new Cookies()
-            cookies.set('isLogin', true, { path: '/' })
 
-            self.setState({
-                isLogined: cookies.get('isLogin')
-            })
+            //Set Cookies for Login
+            //const cookies = new Cookies()
+            // cookies.set('isLogin', true, { path: '/' })
+
+            console.log('Chuan bi setState')
             
-            //console.log('Login Successssssss')
+            console.log('Login Successssssss')
             //console.log(self.state)
         }).catch(function (error) {
             //Error when signed in
@@ -143,7 +164,7 @@ class LoginForm extends React.Component {
             console.log(errCode, errMessage)
         })
         //console.log(this.state)
-        
+
     }
 
 
@@ -156,16 +177,30 @@ class LoginForm extends React.Component {
     checkLoginStatus() {
         const cookies = new Cookies()
         const status = cookies.get('isLogin')
-        if (status === 'true')
-            return <Redirect to='/dashboard'/>
+        const admin = cookies.get('isAdmin')
+        console.log('status: ', status)
+        console.log('AMDIN:', this.state.isAdmin)
+
+        if (status === 'true'){
+            if (admin === 'false'){
+                return <Redirect to='/dashboard' />
+            }
+            else if (admin === 'true'){
+                console.log('Hey! Im Admin')
+                window.location.href = 'http://192.168.2.49:4000/api/admin'
+            }
+            else {
+                console.log('NULLLLLL')
+            }
+        }
     }
 
-    
+
 
     render() {
         return (
             <React.Fragment>
-                
+
                 {this.checkLoginStatus()}
                 <div className='login-form'>
                     <h2 className='login-title'>LOGIN</h2>
@@ -189,7 +224,7 @@ class LoginForm extends React.Component {
                         </p>
                     </form>
                 </div>
-                
+
             </React.Fragment>
         )
     }

@@ -6,11 +6,12 @@ import 'firebase/auth'
 import 'firebase/firestore'
 import firebase from 'firebase/app'
 import { configDev } from '../../firebase/auth'
-import { Modal, Alert, ButtonToolbar } from 'react-bootstrap'
+import { Modal, Alert, ButtonToolbar} from 'react-bootstrap'
 import Button from 'react-bootstrap/Button'
 //import { RandomHash } from 'random-hash'
 import axios from 'axios'
 import { server } from '../../firebase/auth'
+import AvatarBtn from '../../components/avatarBtn/avatarBtn'
 
 const SignOutBtn = withRouter(({ history }) => (true) ?
     <button className='btn-lgout' type='button' onClick={() => {
@@ -321,7 +322,7 @@ class DashBoard extends React.Component {
                         'Content-Type': 'application/x-www-form-urlencoded',
                         'tokenID': idToken,
                     };
-                    //console.log('DUMAAAAAA: ', headers)
+
 
                     const path = server + '/api/user/boards'
                     axios.get(path, { headers }).then(res => {
@@ -362,7 +363,7 @@ class DashBoard extends React.Component {
                             </div>
                         </div>
                         <div className='nav-board-c3'>
-                            <SignOutBtn />
+                            <AvatarBtn name={this.state.name} data={this.state}/>
                         </div>
                     </div>
                     <div className='body-board'>

@@ -37,6 +37,10 @@ const MainRouter = () => (
             <Route exact path='/signup' component={SignupPage}></Route>
             <Route exact path='/forgotten-password' component={ForgotPassword}/>
             <Route exact path='/b/:pos/:id/:name' component={TaskList}></Route>
+            {/* <Route path='/admin' component={() => { 
+                    //window.location.href = 'http://192.168.2.49:4000/api/admin'; 
+                    return null;
+            }}/> */}
             <Route component={errPage}></Route>
         </Switch>
     </main>
