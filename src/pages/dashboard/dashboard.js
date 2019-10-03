@@ -54,6 +54,10 @@ class DashBoard extends React.Component {
         var n = str.indexOf('@')
         var name = str.substr(0, n)
 
+        let FN = localStorage.getItem('firstName'),
+            LN = localStorage.getItem('lastName')
+        let fullname = FN + ' ' + LN
+
         this.state = {
             pos: 0,
             isUpdated: false,
@@ -62,6 +66,7 @@ class DashBoard extends React.Component {
             openModalRemove: false,
             openModalEdit: false,
             name: name,
+            fullname: fullname,
             dbEmail: localStorage.getItem('email'),
             dbPassword: localStorage.getItem('password'),
             signOut: false,
@@ -363,7 +368,7 @@ class DashBoard extends React.Component {
                             </div>
                         </div>
                         <div className='nav-board-c3'>
-                            <AvatarBtn name={this.state.name} data={this.state}/>
+                            <AvatarBtn name={this.state.fullname} data={this.state}/>
                         </div>
                     </div>
                     <div className='body-board'>

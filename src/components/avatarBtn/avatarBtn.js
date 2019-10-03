@@ -13,7 +13,7 @@ import 'firebase/firestore'
 import firebase from 'firebase/app'
 
 
-class avatarBtn extends React.Component {
+class AvatarBtn extends React.Component {
     constructor(props) {
         super(props)
         
@@ -55,7 +55,7 @@ class avatarBtn extends React.Component {
                     title={<AccountCircleIcon style={{ fontSize: 30 }} />}
                     id="dropdown-menu-align-right"
                 >
-                    <p className='dropdown-header' eventKey="1"><i>{this.props.name}</i></p>
+                    <p className='dropdown-header' eventkey="1"><i>{this.props.name}</i></p>
                     <Dropdown.Divider />
                     <Dropdown.Item eventKey="2" href='/profile'>Profile</Dropdown.Item>
                     <Dropdown.Divider />
@@ -85,4 +85,4 @@ class avatarBtn extends React.Component {
     }
 }
 
-export default withRouter(avatarBtn)
+export default withRouter(AvatarBtn)

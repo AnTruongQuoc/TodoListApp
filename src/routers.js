@@ -10,6 +10,8 @@ import AuthHome from './components/auth/auth-home'
 import DashBoard from './pages/dashboard/dashboard'
 import TaskList from './pages/tasklist/tasklist'
 import errPage from './pages/404page/404page'
+import Profile from './pages/profile/profile'
+
 const MainRouter = () => (
     <main>
         <Switch>
@@ -41,6 +43,7 @@ const MainRouter = () => (
                     //window.location.href = 'http://192.168.2.49:4000/api/admin'; 
                     return null;
             }}/> */}
+            <Route exact path='/profile' component={Profile}></Route>
             <Route component={errPage}></Route>
         </Switch>
     </main>

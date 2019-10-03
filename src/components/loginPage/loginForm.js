@@ -98,6 +98,12 @@ class LoginForm extends React.Component {
                 axios.get(path, { headers }).then(res => {
                     //Do sth here
                     console.log('User infoooooo:', res.data)
+                    localStorage.setItem('avatarURL', res.data.avatarURL)
+                    localStorage.setItem('birthDay', res.data.birthDay)
+                    localStorage.setItem('firstName', res.data.firstName)
+                    localStorage.setItem('lastName', res.data.lastName)
+                    localStorage.setItem('userPhone', res.data.userPhone)
+                    localStorage.setItem('updatedAt', res.data.updatedAt)
 
                     if (res.data.typeUser === 'admin') {
                         console.log('checking inside:', res.data)

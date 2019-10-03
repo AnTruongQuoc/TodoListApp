@@ -1,0 +1,183 @@
+.home-zone{
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .moving-banner{
+        width: 50%;
+        margin: 50px auto 0 auto;
+        position: relative;
+        height: 30vh;
+        background-color: #C784C8;
+        border-radius: 10px;
+        .pos{
+            position: absolute;
+        }
+        .text{
+            font-weight: 600;
+            color: #fff;
+            font-size: 30px;
+            top: 25%;
+            left: 30px;
+            z-index: 2;
+            animation: fly 4.5s ease-in-out infinite;
+        }
+        .cDarkCover{
+            width: 90px;
+            height: 90px;
+            //border-radius: 50%;
+            //transform: rotate(90deg);
+            background-color: rgba(44, 41, 61, 0.5);
+            top: 20%;
+            left: 55%;
+            z-index: 0;
+            animation: fly 6s ease-in-out infinite;
+        }
+
+        .cDark{
+            width: 70px;
+            height: 70px;
+            //border-radius: 50%;
+            //transform: rotate(90deg);
+            background-color: #362B72;
+            top: 40%;
+            left: 60%;
+            z-index: 1;
+            animation: fly 4s ease-in-out infinite;
+        }
+        .cPink{
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #9C669A;
+            top: 60%;
+            left: 2%;
+            z-index: 0;
+            animation: fly 4s ease-in-out infinite;
+        }
+
+        .ball{
+            width: 15%;
+            top: -16%;
+            left: 80%;
+            animation: fly 8s ease-in-out infinite;
+            
+        }
+    }
+    .title-zone{
+        width: 50%;
+        padding: 40px 0;
+        font-family: montserrat;
+        .text-hz1{
+            font-size: 30px;
+        }
+        .text-hz2{
+            font-size: 14px;
+        }
+    }
+    .info-zone{
+        width: 50%;
+        font-family: montserrat;
+        .form-zone{
+            display: flex;
+            flex-direction: row;
+            .form-info{
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                
+                    
+                    .firstname, .lastname{
+                        width: 100%;
+                        .dec{
+                            width: 60%;
+                        }
+                    }
+                    
+                
+                .userphone, .birthday{
+                    width: 100%;
+                    .ub{
+                        width: 60%;
+                    }
+                }
+                .dec{
+                    border-radius: 3px;
+                    border: 1.5px solid #8684DE;
+                    padding: 5px;
+                    font-size: 15px;
+                }
+                .dec-font{
+                    margin: 30px 0 5px 0;
+                    font-size: 14px;
+                    font-weight: 600;
+                }
+                .btn-success{
+                    width: 60%;
+                    margin-top: 40px;
+                    font-size: 14px;
+                }
+            }
+
+            .avatar-zone{
+                .dec-font{
+                    margin: 30px 0 5px 0;
+                    font-size: 14px;
+                    font-weight: 600;
+                    text-align: center;
+                }
+            }
+        }
+    }
+
+    .contact-zone{
+        width: 50%;
+        font-family: montserrat;
+        margin-top: 50px;
+        .email{
+            margin-bottom: 50px;
+            .dec{
+                border-radius: 3px;
+                border: 1.5px solid #8684DE;
+                padding: 5px;
+                font-size: 15px;
+                .deco-pe{
+                    .pe{
+                        background-color: #E8918E;
+                        border-radius: 5px;
+                        font-size: 10px;
+                        font-weight: 600;
+                        width: 20%;
+                        text-align: center;
+                        padding: 3px;
+                    }
+
+                    .added{
+                        font-size: 10px;
+                        margin-left: 20px;
+                        font-weight: 600;
+                    }
+
+                }
+            }
+            .dec-font{
+                margin: 30px 0 5px 0;
+                font-size: 14px;
+                font-weight: 600;
+            }
+        }
+    }
+}
+
+@keyframes fly {
+    0%{
+        transform: translateY(0)
+    }
+    50%{
+        transform: translateY(12px)
+    }
+    100%{
+        transform: translateY(0)
+    }
+}

@@ -68,8 +68,12 @@ class TaskList extends React.Component {
         var n = str.indexOf('@')
         var name = str.substr(0, n)
 
+        let FN = localStorage.getItem('firstName'),
+            LN = localStorage.getItem('lastName')
+        let fullname = FN + ' ' + LN
+
         this.state = {
-            name: name,
+            name: fullname,
             dbEmail: localStorage.getItem('email'),
             dbPassword: localStorage.getItem('password'),
             isUpdated: false,

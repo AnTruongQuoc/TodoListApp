@@ -1,0 +1,200 @@
+.profile {
+    width: 100%;
+    //height: 300vh;
+    margin: 0;
+    background-color: white;
+    .nav-board {
+        height: 50px;
+        width: 100%;    
+        background-color: #333;
+        position: fixed;
+        top: 0;
+        z-index: 999;
+        .nav-board-c1{
+            width: 30%;
+            height: 50px;
+            float: left;
+            .btn-home{
+                background-color: transparent;
+                outline: none;
+                border: none;
+                font-size: 14px;
+                .fas {
+                    color: white;
+                    vertical-align: center;
+                    padding: 5px;
+                    margin: 4px;
+                    border-radius: 8px;
+                    transition: background-color 0.25s ease;
+                    &:hover {
+                        background-color: #105e62;
+                        color: #c7f0db;
+                    }
+                }
+            }
+        }
+        .nav-board-c2{
+            width: 40%;
+            height: 50px;
+            float: left;
+            
+            .nav-board-title{
+                width: 60%;
+                margin: auto;
+                .nav-h5-btitle{
+                    height: 35px;
+                    margin: 0;
+                    padding: 7.5px 0;
+                    text-align: center;
+                    font-size: 1.75em;
+                    color: #8bbabb;
+                    font-family: montserrat;
+                    font-weight: 600;
+                    transition: all 0.3s ease;
+                    &:hover {
+                        color: #c7f0db;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+        .nav-board-c3 {
+            width: 30%;
+            height: 50px;
+            float: left;
+            .btn-lgout {
+                float: right;
+                padding: 7px 15px;
+                margin: 7.5px 10px;
+                border: 1.5px solid whitesmoke;
+                background-color: transparent;
+                border-radius: 8px;
+                color: white;
+                letter-spacing: 1px;
+                font-weight: 600;
+                transition: all .4s ease-in-out;
+                font-family: montserrat;
+                font-size: 13px;
+                &:hover {
+                    background-color: #105e62;
+                    color: #c7f0db;
+                    border: 1.5px solid #c7f0db;
+                }
+    
+                &:focus{
+                    outline: none;
+                }
+    
+            }
+            .custom-drd-noti{
+                height: 50px;
+                width: 50px;
+                float: right;
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                .dropdown-menu-right{
+                    .dropdown-header{
+                        text-align: center;
+                        letter-spacing: 0.05rem;
+                        font-family: montserrat;
+                    }
+                }
+                
+                .btn{
+                    //float: right;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 3px;
+                    margin-right: 6px;
+                }
+                .btn-primary{
+                    background-color: transparent;
+                    border: none;
+                }
+                .dropdown-toggle:after{
+                    border: none;
+                    display: none;
+                }
+            }
+            .custom-drd-btn{
+                height: 50px;
+                width: 50px;
+                float: right;
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                .dropdown-menu-right{
+                    .dropdown-header{
+                        text-align: center;
+                    }
+                }
+                
+                .btn{
+                    //float: right;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 3px;
+                    margin-right: 6px;
+                }
+                .btn-primary{
+                    background-color: transparent;
+                    border: none;
+                }
+                .dropdown-toggle:after{
+                    border: none;
+                    display: none;
+                }
+            }
+
+        }
+    }
+
+    .profile-body{
+        width: 100%;
+        padding-top: 50px;
+        .profile-ava-container{
+            height: 50vh;
+            background-color: #fdecff;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            .text-contain{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                .name, .email{
+                    font-family: montserrat;
+                    margin-top: 20px;
+                    color: #443737;
+                }
+                .name{
+                    font-size: 1.25rem;
+                    margin-right: 20px;
+                }
+                .email{
+                    font-size: 0.9rem;
+                    margin-left: 20px;
+                    font-style: italic;
+                }
+            }
+        }
+
+        .profile-tabs{
+            .nav-tabs{
+                background-color: #fdecff;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+    }
+}
