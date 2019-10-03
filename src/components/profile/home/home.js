@@ -61,20 +61,20 @@ class Home extends React.Component {
 
                                 <div className='firstname'>
                                     <p className='dec-font'>First Name</p>
-                                    <input type='text' value={this.state.firstName} className='dec' />
+                                    <input type='text' defaultValue={this.state.firstName} className='dec' />
                                 </div>
                                 <div className='lastname'>
                                     <p className='dec-font'>Last Name</p>
-                                    <input type='text' value={this.state.lastName} className='dec' />
+                                    <input type='text' defaultValue={this.state.lastName} className='dec' />
                                 </div>
 
                                 <div className='userphone'>
                                     <p className='dec-font'>Phone Number</p>
-                                    <input type='text' value={this.state.userPhone} className='dec ub' />
+                                    <input type='text' defaultValue={this.state.userPhone} className='dec ub' />
                                 </div>
                                 <div className='birthday'>
                                     <p className='dec-font'>Birthday</p>
-                                    <input type='text' value={this.state.birthDay} className='dec ub' />
+                                    <input type='text' defaultValue={this.state.birthDay} className='dec ub' />
                                 </div>
 
                                 <button type='submit' className='btn btn-success' disabled>Save</button>
