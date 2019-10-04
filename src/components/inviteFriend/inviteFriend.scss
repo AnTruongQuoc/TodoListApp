@@ -1,0 +1,50 @@
+.custom-drd-invite{
+    .btn{
+        border: none;
+        font-size: 14px;
+        padding: 7px 14px
+    }
+
+    .btn-primary{
+        background-color: rgba(0, 123, 255, 0.7)
+    }
+    .dropdown-toggle:after{
+        content: none;
+    }
+
+    .dropdown-toggle{
+        &:focus{
+            outline: none;
+            box-shadow: none;
+        }
+    }
+
+    .dropdown-menu{
+        text-align: center;
+
+        .form-invite{
+            display: flex;
+            flex-direction: column;
+            margin: 10px 0 10px 0;
+            .email-in{
+                width: 20vw;
+                margin: 10px;
+                border-radius: 3px;
+                border: 1.5px solid #E5E5E5;
+                
+                padding: 6px;
+                font-size: 14px;
+
+                &:focus{
+                    border: 1.5px solid #8684DE;
+                }
+            }
+
+            .btn{
+                margin: 10px;
+                width: 20vw;
+                font-size: 14px;
+            }
+        }
+    }
+}

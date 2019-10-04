@@ -118,6 +118,10 @@ class LoginForm extends React.Component {
                         }).catch((err) => {
                             console.log(err.message)
                         })
+                        self.setState({
+                            isLogined: cookies.get('isLogin')
+                       })
+                       self.forceUpdate()
                     }
                     else {
                         console.log('Setting cookies')

@@ -6,12 +6,13 @@ import 'firebase/auth'
 import 'firebase/firestore'
 import firebase from 'firebase/app'
 import { configDev } from '../../firebase/auth'
-import { Modal, Alert, ButtonToolbar} from 'react-bootstrap'
+import { Modal, Alert, ButtonToolbar } from 'react-bootstrap'
 import Button from 'react-bootstrap/Button'
 //import { RandomHash } from 'random-hash'
 import axios from 'axios'
 import { server } from '../../firebase/auth'
 import AvatarBtn from '../../components/avatarBtn/avatarBtn'
+
 
 const SignOutBtn = withRouter(({ history }) => (true) ?
     <button className='btn-lgout' type='button' onClick={() => {
@@ -315,7 +316,7 @@ class DashBoard extends React.Component {
         //const tokenID = localStorage.getItem('tokenID')
         //const cookies = new Cookies()
         //const tokenID = cookies.get('tokenID')
-
+        
         let a = this.state.isUpdated
         //console.log('.........:', a)
         if (a === false) {
@@ -343,6 +344,7 @@ class DashBoard extends React.Component {
                     })
                 })
             })
+            
         }
 
 
@@ -350,7 +352,6 @@ class DashBoard extends React.Component {
     render() {
         return (
             <React.Fragment>
-
                 {this.updateState()}
                 <div className='boards'>
                     <div className='nav-board'>
@@ -368,7 +369,7 @@ class DashBoard extends React.Component {
                             </div>
                         </div>
                         <div className='nav-board-c3'>
-                            <AvatarBtn name={this.state.fullname} data={this.state}/>
+                            <AvatarBtn name={this.state.fullname} data={this.state} />
                         </div>
                     </div>
                     <div className='body-board'>
@@ -499,7 +500,7 @@ class DashBoard extends React.Component {
                     </Modal.Header>
                     <Modal.Body>
                         <form className='form-edit-b' onSubmit={this.handleSubmitEdit}>
-                            <input className='in-edit-b' type='text' placeholder='New Board Name' onChange={this.handleEditBoardInput} required />
+                            <input className='in-edit-b' type='text' placeholder="New Board's Name" onChange={this.handleEditBoardInput} required />
                             <div className='form-btn-gr'>
                                 <Button className='btn-close' variant="danger" onClick={this.closeModalEdit}>
                                     <i className="fas fa-times"></i>

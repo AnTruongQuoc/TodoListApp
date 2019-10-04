@@ -167,7 +167,10 @@
             margin-left: 20px;
             font-family: montserrat;
             font-size: 24px;
-
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
             .btn-edit-title{
                 border: none;
                 //background-color: transparent;
@@ -176,7 +179,7 @@
                 background-color: #cf455c;
                     
                 transition: all 0.4s ease-in-out;
-                border-radius: 50%;
+               border-radius: 5px;
                 &:hover{
                     background-color: #42b883;
                     border-radius: 50%;

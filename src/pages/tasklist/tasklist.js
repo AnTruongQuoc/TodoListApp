@@ -16,6 +16,8 @@ import Alert from 'react-bootstrap/Alert'
 import axios from 'axios'
 import { server } from '../../firebase/auth'
 import AvatarBtn from '../../components/avatarBtn/avatarBtn'
+import InviteFriend from '../../components/inviteFriend/inviteFriend'
+import AvatarMember from '../../components/memberAvatar/memberAvatar'
 
 const SignOutBtn = withRouter(({ history }) => (true) ?
     <button className='btn-lgout' type='button' onClick={() => {
@@ -550,7 +552,6 @@ class TaskList extends React.Component {
                 // this.setState({
                 //     details: res.data[this.props.match.params.pos].details
                 // })
-
                 const detailsT = res.data[this.props.match.params.pos].details
                 
                 de =  res.data[this.props.match.params.pos].details
@@ -663,6 +664,8 @@ class TaskList extends React.Component {
                             <button type='button' className='btn-edit-title' onClick={this.openEditModal} disabled>
                                 <i className="far fa-star"></i>
                             </button>
+                            <AvatarMember/>
+                            <InviteFriend/>
                         </div>
                         <div className='task-list'>
                             {
