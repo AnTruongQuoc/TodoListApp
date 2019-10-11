@@ -665,7 +665,7 @@ class TaskList extends React.Component {
                                 <i className="far fa-star"></i>
                             </button>
                             <AvatarMember/>
-                            <InviteFriend/>
+                            <InviteFriend boardID={this.props.match.params.id}/>
                         </div>
                         <div className='task-list'>
                             {

@@ -12,7 +12,7 @@ import Button from 'react-bootstrap/Button'
 import axios from 'axios'
 import { server } from '../../firebase/auth'
 import AvatarBtn from '../../components/avatarBtn/avatarBtn'
-
+import {connect} from 'react-redux'
 
 const SignOutBtn = withRouter(({ history }) => (true) ?
     <button className='btn-lgout' type='button' onClick={() => {
@@ -267,7 +267,7 @@ class DashBoard extends React.Component {
             'boardName': this.state.boardName,
             'boardColor': this.state.boardColor,
             'status': ''
-        },
+            },
             { headers })
             .then((res) => {
                 this.state.boards.push({
@@ -277,6 +277,7 @@ class DashBoard extends React.Component {
                     boardID: res.data.boardID
                 })
                 this.forceUpdate()
+                
             })
 
 
@@ -521,4 +522,9 @@ class DashBoard extends React.Component {
     }
 }
 
-export default withRouter(DashBoard)
+const mapStateToProps = (state) => {
+    return{
+        boards: state.boards
+    }
+}
+export default connect(mapStateToProps, null)(withRouter(DashBoard))

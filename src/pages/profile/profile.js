@@ -26,11 +26,10 @@ const useStyles = makeStyles({
     }
 })
 
-const AvatarIMG = () => {
+const AvatarIMG = (value) => {
     const classes = useStyles()
-    let FN = localStorage.getItem('firstName'),
-        LN = localStorage.getItem('lastName')
-
+    let FN = value.data.firstName,
+        LN = value.data.lastName
     let name = FN.slice(0,1) + LN.slice(0,1) 
 
     return (
@@ -42,6 +41,9 @@ const AvatarIMG = () => {
 class profile extends React.Component {
     constructor(props) {
         super(props)
+
+
+        this.handle = this.handle.bind(this)
 
         if (!firebase.apps.length) {
             firebase.initializeApp(configDev);
@@ -63,6 +65,19 @@ class profile extends React.Component {
             updatedAt: localStorage.getItem('updatedAt')
         }
     }
+
+    handle = (value) => {
+        let newName = value.firstName + ' ' + value.lastName
+        this.setState({
+            firstName: value.firstName,
+            lastName: value.lastName,
+            birthDay: value.birthDay,
+            name: newName
+        })
+        console.log('handle: ', value)
+        this.forceUpdate()
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -82,12 +97,12 @@ class profile extends React.Component {
                             </div>
                         </div>
                         <div className='nav-board-c3'>
-                            <AvatarBtn name={this.state.name} data={this.state} />
+                            <AvatarBtn name={this.state.name} data={this.state} handle={this.handle}/>
                         </div>
                     </div>
                     <div className='profile-body'>
                         <div className='profile-ava-container'>
-                            <AvatarIMG />
+                            <AvatarIMG data={this.state}/>
                             <div className='text-contain'>
                                 <p className='name'>{this.state.name}</p>
                                 <p className='email'>{this.state.dbEmail}</p>
@@ -96,7 +111,7 @@ class profile extends React.Component {
                         <div className='profile-tabs'>
                             <Tabs defaultActiveKey="home" id="noanim-tab-example">
                                 <Tab eventKey="home" title="Profile">
-                                    <Home data={this.state}/>
+                                    <Home data={this.state} handle={this.handle}/>
                                 </Tab>
                                 <Tab eventKey="profile" title="Setting" disabled>
 

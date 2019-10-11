@@ -46,6 +46,40 @@ body {
         }
 
         .modal-body{
+          .modal-profile-home-info{
+            margin: auto;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            
+            .form-btn-gr{
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+              align-content: stretch;
+              margin: 10px 0;
+   
+              width: 40%;
+              .fas{
+                padding: 0;
+              }
+  
+              .btn-close{
+                border-radius: 50%;
+                padding: 6px 14px;
+                margin: 0 10px;
+              }
+  
+              .btn-submit{
+                border-radius: 50%;
+                margin: 0 10px;
+              }
+            }
+          }
+
           .form-edit-task{
             display: flex;
             flex-direction: column;

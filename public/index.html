@@ -18,7 +18,18 @@
     OneSignal.push(function () {
       OneSignal.init({
         appId: "4db007ad-696b-4bca-a348-ef8d2e59834b",
+        // requiresUserPrivacyConsent: true,
+        // autoResubscribe: true,
+        // notifyButton: {
+        //   enable: true,
+        // },
+        // welcomeNotification: {
+        //   "title": "TodoList App",
+        //   "message": "Thanks for subscribing!",
+        //   "url": "https://todolist-dev-3e715.firebaseapp.com/" /* Leave commented for the notification to not open a window on Chrome and Firefox (on Safari, it opens to your webpage) */
+        // }
       });
+      //OneSignal.showNativePrompt();
     });
   </script>
   <title>TodoList App</title>
@@ -27,12 +38,7 @@
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
 
-
-
   <div id="TodoApp"></div>
-
-
-
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
