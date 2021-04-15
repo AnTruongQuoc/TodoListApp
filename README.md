@@ -1,2 +1,2 @@
 # TodoListApp
-We are gonna create a small Todolist App
+We are gonna create a small Todolist App like Trello
