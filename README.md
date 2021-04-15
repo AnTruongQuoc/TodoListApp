@@ -25,9 +25,14 @@
 <!-- INSTALLATION -->
 ## Installation
 
-Clone this repository and import into Android Studio
+Clone this repository
    ```sh
    git clone https://github.com/AnTruongQuoc/TodoListApp.git
+   ```
+
+Then run
+   ```sh
+   npm install
    ```
    
 ## Languages and Tools
