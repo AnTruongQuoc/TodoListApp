@@ -12,24 +12,20 @@
   <meta name="description" content="Web site created using create-react-app" />
   <link rel="apple-touch-icon" href="logo192.png" />
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+  <link rel="OneSignal" href="%PUBLIC_URL%/OneSignalSDKWorker.js" />
+  <link rel="OneSignalUpdate" href="%PUBLIC_URL%/OneSignalSDKUpdaterWorker.js" />
+  
   <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
   <script>
     var OneSignal = window.OneSignal || [];
     OneSignal.push(function () {
+      // OneSignal.SERVICE_WORKER_PARAM = { scope: '/' };
+      // OneSignal.SERVICE_WORKER_PATH = '/OneSignalSDKWorker.js'
+      // OneSignal.SERVICE_WORKER_UPDATER_PATH = '/OneSignalSDKUpdaterWorker.js'
       OneSignal.init({
         appId: "4db007ad-696b-4bca-a348-ef8d2e59834b",
-        // requiresUserPrivacyConsent: true,
-        // autoResubscribe: true,
-        // notifyButton: {
-        //   enable: true,
-        // },
-        // welcomeNotification: {
-        //   "title": "TodoList App",
-        //   "message": "Thanks for subscribing!",
-        //   "url": "https://todolist-dev-3e715.firebaseapp.com/" /* Leave commented for the notification to not open a window on Chrome and Firefox (on Safari, it opens to your webpage) */
-        // }
       });
-      //OneSignal.showNativePrompt();
     });
   </script>
   <title>TodoList App</title>

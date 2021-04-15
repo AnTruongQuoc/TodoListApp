@@ -1,28 +1,16 @@
 import * as types from '../constants/ActionTypes'
 
-var initState = [
-    {
-        boardID: 123,
-        boardName: 'NewName',
-        boardColor: '#ff6f5e'
-    },
-    {
-        boardID: 123,
-        boardName: 'NewName',
-        boardColor: '#ff6f5e'
-    },
-    {
-        boardID: 123,
-        boardName: 'NewName',
-        boardColor: '#ff6f5e'
-    }
-];
+var initState = [];
 
 var myReducer = (state = initState, action) => {
     switch(action.type){
         case types.LIST_ALL:
-            return state
+            var boards = action.boardsData
+            console.log('reutrn in action: ', boards )
+            
+            return boards
         default: 
+        console.log('Return Default')
             return state
     }
 }

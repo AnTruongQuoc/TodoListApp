@@ -14,7 +14,7 @@ const store = createStore(myReducer)
 ReactDOM.render(
     <Provider store = {store}>
         <BrowserRouter>
-            <SnackbarProvider maxSnack={3} iconVariant='success'>
+            <SnackbarProvider maxSnack={3}>
                 <App />
             </SnackbarProvider>
         </BrowserRouter>

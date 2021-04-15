@@ -10,8 +10,8 @@ import { Redirect } from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
 import axios from 'axios'
 import { server } from '../../firebase/auth'
-
-
+import { connect } from 'react-redux'
+import * as actions from '../../actions/actions'
 
 class LoginForm extends React.Component {
 
@@ -104,6 +104,15 @@ class LoginForm extends React.Component {
                     localStorage.setItem('lastName', res.data.lastName)
                     localStorage.setItem('userPhone', res.data.userPhone)
                     localStorage.setItem('updatedAt', res.data.updatedAt)
+                    
+                    self.props.onGetUserData({
+                        avatarURL: res.data.avatarURL,
+                        birthDay: res.data.birthDay,
+                        firstName: res.data.firstName,
+                        lastName: res.data.lastName,
+                        userPhone: res.data.userPhone,
+                        updatedAt: res.data.updatedAt,
+                    })
 
                     if (res.data.typeUser === 'admin') {
                         console.log('checking inside:', res.data)
@@ -120,8 +129,8 @@ class LoginForm extends React.Component {
                         })
                         self.setState({
                             isLogined: cookies.get('isLogin')
-                       })
-                       self.forceUpdate()
+                        })
+                        self.forceUpdate()
                     }
                     else {
                         console.log('Setting cookies')
@@ -130,8 +139,8 @@ class LoginForm extends React.Component {
                         cookies.set('isAdmin', false, { path: '/' })
                         self.setState({
                             isLogined: cookies.get('isLogin')
-                       })
-                       self.forceUpdate()
+                        })
+                        self.forceUpdate()
                     }
                     console.log('Chuan bi ra ngoai')
                 }).catch((err) => {
@@ -155,7 +164,7 @@ class LoginForm extends React.Component {
             // cookies.set('isLogin', true, { path: '/' })
 
             console.log('Chuan bi setState')
-            
+
             console.log('Login Successssssss')
             //console.log(self.state)
         }).catch(function (error) {
@@ -191,11 +200,11 @@ class LoginForm extends React.Component {
         console.log('status: ', status)
         console.log('AMDIN:', this.state.isAdmin)
 
-        if (status === 'true'){
-            if (admin === 'false'){
+        if (status === 'true') {
+            if (admin === 'false') {
                 return <Redirect to='/dashboard' />
             }
-            else if (admin === 'true'){
+            else if (admin === 'true') {
                 console.log('Hey! Im Admin')
                 window.location.href = 'http://192.168.2.49:4000/api/admin'
             }
@@ -240,6 +249,18 @@ class LoginForm extends React.Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
 
+    }
+}
 
-export default withRouter(LoginForm)
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        onGetUserData : (userData) => {
+            dispatch(actions.login(userData))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(LoginForm))

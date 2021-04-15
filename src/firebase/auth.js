@@ -1,7 +1,8 @@
 //Server link
-//export const server = 'http://a2e59005.ngrok.io'  //Server Ngrok
-export const server = 'http://192.168.0.150:4000' //Server local Kien An
-//export const server = 'http://103.221.223.126:4000' //Server Ngnix
+//export const server = 'https://19c38f49.ngrok.io'  //Server Ngrok
+//export const server = 'http://192.168.0.150:4000' //Server local Kien An
+//export const server = 'http://192.168.2.12:4000' //Server local Kien An South- 2G
+export const server = 'http://103.221.223.126:4000' //Server Ngnix
 //export const server = 'http://192.168.2.49:4000' //Server Tung
 // Config of TodoList-demoTest (Firebase)
 export const config= {
@@ -13,8 +14,6 @@ export const config= {
     messagingSenderId: "678656591916",
     appId: "1:678656591916:web:1b8931fcda502496542989"
 };
-
-
 
 // Config of TodoList-dev (Firebase)
 export const configDev = {

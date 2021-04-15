@@ -19,44 +19,6 @@ import AvatarBtn from '../../components/avatarBtn/avatarBtn'
 import InviteFriend from '../../components/inviteFriend/inviteFriend'
 import AvatarMember from '../../components/memberAvatar/memberAvatar'
 
-const SignOutBtn = withRouter(({ history }) => (true) ?
-    <button className='btn-lgout' type='button' onClick={() => {
-
-        const cookies = new Cookies()
-        cookies.set('isLogin', false, { path: '/' })
-        const email = localStorage.getItem('email'),
-            pass = localStorage.getItem('password')
-
-        firebase.auth().signInWithEmailAndPassword(email, pass).then(() => {
-            firebase.auth().signOut().then(() => {
-                console.log('Sign out Successful')
-                localStorage.clear()
-                // firebase.auth().currentUser.getIdToken(true).then((idToken) => {
-                //     console.log('tokennnnn: ', idToken)
-                // }).catch((err) => {
-                //     console.log('ko lay duoc token')
-                // })
-                // firebase.auth().onAuthStateChanged((user) => {
-                //     if (user){console.log('state change: ', user.email)}
-                //     else {
-                //         console.log('State change: LOG OUT')
-
-                //     }
-                // })
-            }).catch((error) => {
-                console.log(error.message)
-            })
-        }).catch((err) => {
-            console.log(err.message)
-        })
-
-        history.push('/')
-
-    }}>
-        LOG OUT
-        </button> : null
-)
-
 class TaskList extends React.Component {
     constructor(props) {
         super(props)
@@ -65,10 +27,6 @@ class TaskList extends React.Component {
         if (!firebase.apps.length) {
             firebase.initializeApp(configDev);
         }
-
-        var str = localStorage.getItem('email')
-        var n = str.indexOf('@')
-        var name = str.substr(0, n)
 
         let FN = localStorage.getItem('firstName'),
             LN = localStorage.getItem('lastName')
@@ -206,7 +164,6 @@ class TaskList extends React.Component {
             console.log(res.data)
             const link = '/b/' + this.props.match.params.pos + '/' + this.props.match.params.id + '/' + res.data.boardName
             this.props.history.push(link)
-
         }).catch((err) => console.log(err))
 
         this.setState({
@@ -746,7 +703,7 @@ class TaskList extends React.Component {
                                                                                 </Form.Label>
 
                                                                                 <form onSubmit={this.submitDescription(num)} className='form-edit-des'>
-                                                                                    <textarea row='3' onChange={this.handleDescription}>{this.state.List[pos].taskContent[value].description}</textarea>
+                                                                                    <textarea row='3' onChange={this.handleDescription} defaultValue={this.state.List[pos].taskContent[value].description}></textarea>
                                                                                     <input type='submit' value='Edit Description' className='btn btn-success btn-edit-des' />
                                                                                 </form>
                                                                             </Form.Group>
@@ -837,10 +794,7 @@ class TaskList extends React.Component {
                             </Button>
                             <input type='submit' value='Edit' className='btn btn-primary'></input>
                         </form>
-
-
                     </Modal.Body>
-
                 </Modal>
 
             </React.Fragment>

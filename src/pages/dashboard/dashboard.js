@@ -12,32 +12,26 @@ import Button from 'react-bootstrap/Button'
 import axios from 'axios'
 import { server } from '../../firebase/auth'
 import AvatarBtn from '../../components/avatarBtn/avatarBtn'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
+import { withSnackbar } from 'notistack';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import { makeStyles } from '@material-ui/core/styles';
+import * as actions from '../../actions/actions'
 
-const SignOutBtn = withRouter(({ history }) => (true) ?
-    <button className='btn-lgout' type='button' onClick={() => {
+//Material-UI custom------------------------
+const useStyles = makeStyles({
+    icon: {
+        color: '#fff'
+    }
+})
 
-        const cookies = new Cookies()
-        cookies.set('isLogin', false, { path: '/' })
-        const email = localStorage.getItem('email'),
-            pass = localStorage.getItem('password')
-
-        firebase.auth().signInWithEmailAndPassword(email, pass).then(() => {
-            firebase.auth().signOut().then(() => {
-                console.log('Sign out Successful')
-                localStorage.clear()
-            }).catch((error) => {
-                console.log(error.message)
-            })
-        }).catch((err) => {
-            console.log(err.message)
-        })
-
-        history.push('/')
-    }}>
-        LOG OUT
-        </button> : null
-)
+const CloseBtn = () => {
+    const classes = useStyles()
+    return (
+        <CloseIcon className={classes.icon} style={{ fontSize: 20 }} />
+    )
+}
 
 class DashBoard extends React.Component {
     constructor(props) {
@@ -140,11 +134,31 @@ class DashBoard extends React.Component {
 
             this.setState({
                 boards: temp,
-                openModalEdit: false
             })
             this.forceUpdate()
         })
+            .catch((err) => {
+                //SNACKBAR -TESTING
+                const action = (key) => {
+                    return (
+                        <React.Fragment>
+                            <IconButton onClick={() => { this.props.closeSnackbar(key) }}>
+                                <CloseBtn />
+                            </IconButton>
+                        </React.Fragment>
+                    )
+                }
+                this.props.enqueueSnackbar('Failed To Edit This Board.', {
+                    variant: 'error',
+                    action
+                })
+            })
+
+        this.setState({
+            openModalEdit: false
+        })
     }
+
     handleOnHideEdit = () => {
         this.setState({
             openModalEdit: false
@@ -177,10 +191,43 @@ class DashBoard extends React.Component {
             'tokenID': tokenID,
         };
         const boardID = this.state.boards[this.state.pos].boardID
+        const boardName = this.state.boards[this.state.pos].boardName
+
         const path = server + '/api/user/board/' + boardID
         axios.delete(path, { headers }).then(() => {
+            const action = (key) => {
+                return (
+                    <React.Fragment>
+                        <IconButton onClick={() => { this.props.closeSnackbar(key) }}>
+                            <CloseBtn />
+                        </IconButton>
+                    </React.Fragment>
+                )
+            }
+            let mess = 'Deleted board ' + boardName
+            this.props.enqueueSnackbar(mess, {
+                variant: 'success',
+                action
+            })
+
             this.state.boards.splice(this.state.pos, 1)
             this.forceUpdate()
+        }).catch((err) => {
+            console.log('Error: ', err)
+            //SNACKBAR -TESTING
+            const action = (key) => {
+                return (
+                    <React.Fragment>
+                        <IconButton onClick={() => { this.props.closeSnackbar(key) }}>
+                            <CloseBtn />
+                        </IconButton>
+                    </React.Fragment>
+                )
+            }
+            this.props.enqueueSnackbar('Failed to delete board!', {
+                variant: 'error',
+                action
+            })
         })
 
         this.setState({
@@ -267,7 +314,7 @@ class DashBoard extends React.Component {
             'boardName': this.state.boardName,
             'boardColor': this.state.boardColor,
             'status': ''
-            },
+        },
             { headers })
             .then((res) => {
                 this.state.boards.push({
@@ -277,7 +324,7 @@ class DashBoard extends React.Component {
                     boardID: res.data.boardID
                 })
                 this.forceUpdate()
-                
+
             })
 
 
@@ -310,42 +357,51 @@ class DashBoard extends React.Component {
 
 
     setLocal = pos => e => {
-
         localStorage.setItem('details', JSON.stringify(this.state.boards[pos].details))
     }
+
     updateState() {
-        //const tokenID = localStorage.getItem('tokenID')
-        //const cookies = new Cookies()
-        //const tokenID = cookies.get('tokenID')
-        
+        console.log('checking props: ', this.props)
         let a = this.state.isUpdated
         //console.log('.........:', a)
         if (a === false) {
             let self = this
             //send token to Backend via HTTP
-            firebase.auth().signInWithEmailAndPassword(this.state.dbEmail, this.state.dbPassword).then(() => {
-                firebase.auth().currentUser.getIdToken(true).then((idToken) => {
-                    const headers = {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        'tokenID': idToken,
-                    };
+            const idToken = localStorage.getItem('tokenID')
+            const headers = {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'tokenID': idToken,
+            };
+            const path = server + '/api/user/boards'
+            axios.get(path, { headers }).then(res => {
 
-
-                    const path = server + '/api/user/boards'
-                    axios.get(path, { headers }).then(res => {
-
-                        console.log('Request Board', res.data)
-
-                        self.setState({
-                            boards: res.data,
-                            isUpdated: true
-                        })
-                    }).catch((err) => {
-                        console.log(err)
-                    })
+                console.log('Request Board', res.data)
+                self.props.getAllBoard(res.data)
+                self.setState({
+                    boards: res.data,
+                    isUpdated: true
                 })
+            }).catch((err) => {
+
+                //SNACKBAR -TESTING
+                const action = (key) => {
+                    return (
+                        <React.Fragment>
+                            <IconButton onClick={() => { this.props.closeSnackbar(key) }}>
+                                <CloseBtn />
+                            </IconButton>
+                        </React.Fragment>
+                    )
+                }
+                this.props.enqueueSnackbar('Failed to load boards.', {
+                    variant: 'error',
+                    action
+                })
+                console.log(err)
             })
-            
+
+
+
         }
 
 
@@ -395,23 +451,23 @@ class DashBoard extends React.Component {
                                 <h5 className='bl-title'>Your Boards</h5>
                                 <ul className='boards-section-list'>
                                     {
-                                        this.state.boards.map((value, index) => {
+                                        this.props.boards.map((value, index) => {
 
-                                            const id = this.state.boards[index].boardID
-                                            const name = this.state.boards[index].boardName
+                                            const id = this.props.boards[index].boardID
+                                            const name = this.props.boards[index].boardName
                                             const path = '/b/' + index + '/' + id + '/' + name
 
                                             //console.log(path)
                                             //console.log('value:', value)
-                                            const style = {
-                                                backgroundColor: this.state.boards[index].boardColor
-                                            }
+                                            // const style = {
+                                            //     backgroundColor: this.props.boards[index].boardColor
+                                            // }
 
                                             //console.log('Background: ', style)
                                             return (
-                                                <li key={index} style={style} className={'boards-detail-section-list'} >
+                                                <li key={index}  className={'boards-detail-section-list'} >
 
-                                                    <Link to={path} className='text-contain' value={this.state.boards} onClick={this.setLocal(index)}>
+                                                    <Link to={path} className='text-contain' value={this.props.boards} onClick={this.setLocal(index)}>
                                                         <h5> {value.boardName}</h5>
                                                     </Link>
 
@@ -510,10 +566,7 @@ class DashBoard extends React.Component {
                                     <i className="fas fa-check"></i>
                                 </button>
                             </div>
-
                         </form>
-
-
                     </Modal.Body>
 
                 </Modal>
@@ -523,8 +576,17 @@ class DashBoard extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return{
-        boards: state.boards
+    return {
+        boards: state.boards,
+        login: state.login
     }
 }
-export default connect(mapStateToProps, null)(withRouter(DashBoard))
+
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        getAllBoard : (boardsData) => {
+            dispatch(actions.getAll(boardsData))
+        }
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(withRouter(DashBoard)))

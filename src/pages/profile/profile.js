@@ -1,6 +1,6 @@
 import React from 'react'
 import './profile.scss'
-import Cookies from 'universal-cookie'
+//import Cookies from 'universal-cookie'
 import 'firebase/auth'
 import 'firebase/firestore'
 import firebase from 'firebase/app'

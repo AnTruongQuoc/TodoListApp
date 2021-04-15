@@ -90,7 +90,7 @@ export class inviteFriend extends Component {
                 )
             }
             this.props.enqueueSnackbar('Failed to send invitation.', {
-                variant: 'success',
+                variant: 'error',
                 action
             })
         })
